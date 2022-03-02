@@ -15,7 +15,7 @@ DeclareCAmkESComponent(
     SOURCES
     components/Test/src/test.c
     LIBS
-    usbdrivers
+    ubootusbdrivers
     muslc
     utils
     sel4muslcsys
