@@ -15,7 +15,7 @@ int run_usb_example(ps_io_ops_t *io_ops)
     int error = sel4_usb_init();
     assert(!error);
 
-    printf("Returned from usb_init\n");
+    printf("Returned from sel4_usb_init\n");
 
     // Loop forever
     while (1);
