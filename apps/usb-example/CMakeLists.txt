@@ -17,10 +17,8 @@ DeclareCAmkESComponent(
     LIBS
     ubootusbdrivers
     muslc
-    utils
     sel4muslcsys
     sel4platsupport
-    sel4utils
     sel4debug
     sel4allocman
 )
