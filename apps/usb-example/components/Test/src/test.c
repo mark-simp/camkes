@@ -7,12 +7,14 @@
 
 #include <sel4_usb.h>
 
+#include <libfdt.h>
+
 int run_usb_example(ps_io_ops_t *io_ops)
 {
 
     printf("Calling sel4_usb_init\n");
 
-    int error = sel4_usb_init();
+    int error = sel4_usb_init(io_ops->io_fdt.get_fn(io_ops->io_fdt.cookie));
     assert(!error);
 
     printf("Returned from sel4_usb_init\n");
