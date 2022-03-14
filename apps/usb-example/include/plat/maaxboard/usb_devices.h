@@ -4,6 +4,11 @@
 
 #pragma once
 
+#define DEVICE_PATHS {                                                      \
+    "/soc@0/usb@38100000",                                                  \
+    "/soc@0/usb@38200000"};
+#define DEVICE_PATHS_LENGTH 2
+
 #define HARDWARE_USB_INTERFACES                                             \
     consumes Dummy usb_1;                                                   \
     consumes Dummy usb_2;                                                   \

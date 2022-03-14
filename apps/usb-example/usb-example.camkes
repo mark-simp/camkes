@@ -23,7 +23,4 @@ assembly {
     composition {
         component Test test;
     }
-    configuration {
-        test.dma_pool = 1 * 4096;
-    }
 }

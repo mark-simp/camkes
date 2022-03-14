@@ -14,6 +14,8 @@ DeclareCAmkESComponent(
     Test
     SOURCES
     components/Test/src/test.c
+    INCLUDES
+    include/plat/${KernelPlatform}
     LIBS
     ubootusbdrivers
     muslc
