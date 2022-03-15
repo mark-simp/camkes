@@ -16,7 +16,7 @@ int run_usb_example(ps_io_ops_t *io_ops)
     printf("Calling sel4_usb_init\n");
 
     const char *device_paths[] = DEVICE_PATHS
-    int error = sel4_usb_init(io_ops, device_paths, DEVICE_PATHS_LENGTH);
+    int error = sel4_usb_init(io_ops, device_paths, DEVICE_PATHS_LENGTH, GPT_1_PATH);
     assert(!error);
 
     printf("Returned from sel4_usb_init\n");
