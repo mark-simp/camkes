@@ -23,4 +23,7 @@ assembly {
     composition {
         component Test test;
     }
+    configuration {
+        test.dma_pool = 16 * 1024;
+    }
 }

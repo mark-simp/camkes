@@ -18,11 +18,6 @@ DeclareCAmkESComponent(
     include/plat/${KernelPlatform}
     LIBS
     ubootusbdrivers
-    muslc
-    sel4muslcsys
-    sel4platsupport
-    sel4debug
-    sel4allocman
 )
 
 DeclareCAmkESRootserver(usb-example.camkes)
