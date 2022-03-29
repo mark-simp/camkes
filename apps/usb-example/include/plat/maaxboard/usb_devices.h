@@ -35,7 +35,7 @@
 #define HARDWARE_USB_CONFIGURATION                                          \
     gpt_1.dtb = dtb({ "path" : GPT_1_PATH });                               \
     gpt_1.generate_interrupts = 1;                                          \
-    usb_1.dtb = dtb({ "path" :USB_1_PATH });                                \
+    usb_1.dtb = dtb({ "path" : USB_1_PATH });                               \
     usb_1.generate_interrupts = 1;                                          \
     usb_2.dtb = dtb({ "path" : USB_2_PATH });                               \
     usb_2.generate_interrupts = 1;                                          \
