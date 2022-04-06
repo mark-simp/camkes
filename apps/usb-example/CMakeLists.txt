@@ -17,7 +17,7 @@ DeclareCAmkESComponent(
     INCLUDES
     include/plat/${KernelPlatform}
     LIBS
-    ubootusbdrivers
+    ubootdrivers
 )
 
 DeclareCAmkESRootserver(usb-example.camkes)
