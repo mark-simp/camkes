@@ -17,7 +17,7 @@
     PHY_2_PATH};
 #define DEVICE_PATHS_LENGTH 4
 
-#define HARDWARE_USB_INTERFACES                                             \
+#define HARDWARE_INTERFACES                                                 \
     consumes Dummy gpt_1;                                                   \
     consumes Dummy usb_1;                                                   \
     consumes Dummy usb_2;                                                   \
@@ -25,14 +25,14 @@
     consumes Dummy phy_2;                                                   \
     emits Dummy dummy_source;
 
-#define HARDWARE_USB_COMPOSITION                                            \
+#define HARDWARE_COMPOSITION                                                \
     connection seL4DTBHardware gpt_1_conn(from dummy_source, to gpt_1);     \
     connection seL4DTBHardware usb_1_conn(from dummy_source, to usb_1);     \
     connection seL4DTBHardware usb_2_conn(from dummy_source, to usb_2);     \
     connection seL4DTBHardware phy_1_conn(from dummy_source, to phy_1);     \
     connection seL4DTBHardware phy_2_conn(from dummy_source, to phy_2);
 
-#define HARDWARE_USB_CONFIGURATION                                          \
+#define HARDWARE_CONFIGURATION                                              \
     gpt_1.dtb = dtb({ "path" : GPT_1_PATH });                               \
     gpt_1.generate_interrupts = 1;                                          \
     usb_1.dtb = dtb({ "path" : USB_1_PATH });                               \

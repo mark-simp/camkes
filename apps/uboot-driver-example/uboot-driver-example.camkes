@@ -3,19 +3,19 @@
  */
 
 #include <camkes-single-threaded.h>
-#include <usb_devices.h>
+#include <platform_devices.h>
 
 component Test {
     single_threaded_component()
 
-    HARDWARE_USB_INTERFACES
+    HARDWARE_INTERFACES
 
     composition {
-        HARDWARE_USB_COMPOSITION
+        HARDWARE_COMPOSITION
     }
 
     configuration {
-        HARDWARE_USB_CONFIGURATION
+        HARDWARE_CONFIGURATION
     }
 }
 
