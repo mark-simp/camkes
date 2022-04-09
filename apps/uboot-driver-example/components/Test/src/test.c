@@ -29,6 +29,12 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
 
     run_uboot_command("usb info");
 
+    run_uboot_command("mmc info");
+
+    run_uboot_command("part list mmc 0");
+
+    run_uboot_command("fatls mmc 0");
+
     // Loop for a while reading keypresses and echoing to screen
     printf("Echoing input from the USB keyboard:\n");
     for (int x=0; x<=1000; x++) {
