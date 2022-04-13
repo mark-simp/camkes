@@ -19,21 +19,27 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
 
     run_uboot_command("dm tree");
 
+    run_uboot_command("clocks");
+
     run_uboot_command("setenv stdin usbkbd"); // Use a USB keyboard as the input device
 
     run_uboot_command("usb start");
 
-    run_uboot_command("dm tree");
+    run_uboot_command("part list usb 0");
 
-    run_uboot_command("usb tree");
-
-    run_uboot_command("usb info");
+    run_uboot_command("fatls usb 0");
 
     run_uboot_command("mmc info");
 
     run_uboot_command("part list mmc 0");
 
     run_uboot_command("fatls mmc 0");
+
+    run_uboot_command("dm tree");
+
+    run_uboot_command("usb tree");
+
+    run_uboot_command("usb info");
 
     // Loop for a while reading keypresses and echoing to screen
     printf("Echoing input from the USB keyboard:\n");
