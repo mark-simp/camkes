@@ -14,7 +14,7 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
     printf("Starting U-Boot driver example\n");
 
     const char *device_paths[] = DEVICE_PATHS
-    assert(!initialise_uboot_drivers(io_ops, device_paths, DEVICE_PATHS_LENGTH, GPT_1_PATH));
+    assert(!initialise_uboot_drivers(io_ops, device_paths, DEVICE_PATHS_LENGTH));
 
     run_uboot_command("dm tree");
 
