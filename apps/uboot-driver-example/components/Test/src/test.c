@@ -20,6 +20,26 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
 
     run_uboot_command("clocks");
 
+    run_uboot_command("led list");
+
+    // Flash the LEDs
+    run_uboot_command("led sys_led off");
+    run_uboot_command("led usr_led off");
+    for (int x=0; x<4; x++) {
+        ps_mdelay(125);
+        run_uboot_command("led sys_led on");
+        ps_mdelay(125);
+        run_uboot_command("led usr_led on");
+        ps_mdelay(125);
+        run_uboot_command("led sys_led off");
+        ps_mdelay(125);
+        run_uboot_command("led usr_led off");
+    }
+
+    run_uboot_command("setenv ipaddr 192.168.100.108");
+
+    run_uboot_command("ping 192.168.100.3");
+
     run_uboot_command("setenv stdin usbkbd"); // Use a USB keyboard as the input device
 
     run_uboot_command("usb start");
