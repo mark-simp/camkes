@@ -1,0 +1,112 @@
+/*
+ * Copyright 2019, Data61, CSIRO (ABN 41 687 119 230)
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
+import <std_connector.camkes>;
+import <global-connectors.camkes>;
+import <Ethdriver/Ethdriver.camkes>;
+import <PicoServer/PicoServer.camkes>;
+import <TimeServer/TimeServer.camkes>;
+#include <camkes-picotcp-base.h>
+
+component Echo {
+    control;
+
+    uses PicoControl echo_control;
+    uses PicoRecv echo_recv;
+    uses PicoSend echo_send;
+
+    /* This field is exclusive to this application and not necessary elsewhere */
+    attribute string ip_addr;
+}
+
+assembly {
+    composition {
+        /* Echo component */
+        component Echo echo;
+
+        /* Listener component */
+        // component Listener listener;
+
+        /* PicoServer component */
+        component PicoServer picoserver;
+
+        /* Ethdriver component */
+#ifdef KernelArchArm
+        component EthdriverARMPlat ethdriver;
+#endif /* KernelArchArm */
+
+        /* Timer component */
+        component TimeServer time_server;
+
+        /*
+         * Connections
+         */
+
+        picotcp_base_connections(picoserver, pico_base, time_server.the_timer)
+
+        /* Driver to PicoServer */
+        connection seL4Ethdriver eth_driver_conn(from picoserver.ethdriver, to ethdriver.client);
+
+        /* PicoServer to Echo */
+        connection seL4PicoServerSignal echo_server_control(from echo.echo_control, to picoserver.pico_control);
+        connection seL4PicoServer echo_server_recv(from echo.echo_recv, to picoserver.pico_recv);
+        connection seL4PicoServer echo_server_send(from echo.echo_send, to picoserver.pico_send);
+
+    }
+
+    configuration {
+
+        /*
+         * Non-platform specific configurations
+         */
+
+        /* Ethernet driver configuration */
+        ethdriver.simple = true;
+        ethdriver.cnode_size_bits = 12;
+        ethdriver.simple_untyped20_pool = 2;
+        ethdriver.heap_size = 0x10000;
+        ethdriver.dma_pool = 0x200000;
+
+        time_server.timers_per_client = 8;
+
+        /*
+         * Echo config
+         */
+
+        /*
+         * The attributes of the *_(control/send/recv) interfaces should be the same and unique between
+         * different components, this determines the client ID of this component with respect to
+         * the PicoServer component
+         */
+        echo.echo_control_attributes = "1";
+        echo.echo_recv_attributes = "1";
+        echo.echo_recv_shmem_size = 0x1000;
+        echo.echo_send_attributes = "1";
+        echo.echo_send_shmem_size = 0x1000;
+        echo.ip_addr = PICOSERVER_IP_ADDR;
+
+        /*
+         * PicoServer config
+         */
+        /* IP and multicast address to assign to the networking device */
+        picotcp_base_configuration(picoserver, pico_base, PICOSERVER_IP_ADDR, "0.0.0.0")
+
+        picoserver.ethdriver_shmem_size = 0x1000;
+        picoserver.heap_size = 0x40000;
+
+        /*
+         * Platform specific configurations. Depending on the system or board, you will need
+         * to modify these configurations accordingly.
+         */
+
+        /* ARM */
+
+#ifdef KernelArchArm
+        /* Ethernet driver configuration */
+        ethdriver.promiscuous_mode = 0;
+#endif /* KernelArchArm */
+    }
+}
