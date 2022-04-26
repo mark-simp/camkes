@@ -23,17 +23,15 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
     run_uboot_command("led list");
 
     // Flash the LEDs
-    run_uboot_command("led sys_led off");
-    run_uboot_command("led usr_led off");
     for (int x=0; x<4; x++) {
+        ps_mdelay(125);
+        run_uboot_command("led usr_led off");
         ps_mdelay(125);
         run_uboot_command("led sys_led on");
         ps_mdelay(125);
         run_uboot_command("led usr_led on");
         ps_mdelay(125);
         run_uboot_command("led sys_led off");
-        ps_mdelay(125);
-        run_uboot_command("led usr_led off");
     }
 
     run_uboot_command("setenv ipaddr 192.168.100.108");
