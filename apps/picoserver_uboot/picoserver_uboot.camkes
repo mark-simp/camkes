@@ -6,10 +6,13 @@
 
 import <std_connector.camkes>;
 import <global-connectors.camkes>;
-import <Ethdriver/Ethdriver.camkes>;
 import <PicoServer/PicoServer.camkes>;
 import <TimeServer/TimeServer.camkes>;
+import <Ethdriver.idl4>;
+
 #include <camkes-picotcp-base.h>
+#include <camkes-single-threaded.h>
+#include <platform_devices.h>
 
 component Echo {
     control;
@@ -20,6 +23,27 @@ component Echo {
 
     /* This field is exclusive to this application and not necessary elsewhere */
     attribute string ip_addr;
+}
+
+component EthdriverUboot {
+    single_threaded_component()
+
+    provides Ethdriver client;
+
+    /*
+     * This attribute is set according to whatever configuration you want.
+     */
+    attribute int promiscuous_mode;
+
+    HARDWARE_INTERFACES
+
+    composition {
+        HARDWARE_COMPOSITION
+    }
+
+    configuration {
+        HARDWARE_CONFIGURATION
+    }
 }
 
 assembly {
@@ -34,9 +58,7 @@ assembly {
         component PicoServer picoserver;
 
         /* Ethdriver component */
-#ifdef KernelArchArm
-        component EthdriverARMPlat ethdriver;
-#endif /* KernelArchArm */
+        component EthdriverUboot ethdriver;
 
         /* Timer component */
         component TimeServer time_server;
