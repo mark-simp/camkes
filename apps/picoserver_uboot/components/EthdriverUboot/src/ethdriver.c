@@ -64,11 +64,19 @@ int server_init(ps_io_ops_t *io_ops)
 
     /* Wait for incoming data */
     int ret;
+    unsigned char *packet;
     while(1) {
-        // printf("Testing...\n");
-        ret = uboot_eth_receive();
-        if (ret > 0)
+        ret = uboot_eth_receive(&packet);
+        if (ret > 0) {
+            printf("Received packet @ %p: ", packet);
+            for (int i = 0; i < ret; i++) {
+                printf("%02x ", packet[i]);
+            }
+            printf("\n");
+
+            uboot_eth_free_packet(&packet);
             continue;
+        }
         else if (ret < 0)
             ZF_LOGE("eth_rx returned code %i", ret);
 
