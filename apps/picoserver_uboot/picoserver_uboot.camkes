@@ -89,7 +89,7 @@ assembly {
         ethdriver.simple = true;
         ethdriver.cnode_size_bits = 12;
         ethdriver.simple_untyped20_pool = 2;
-        ethdriver.heap_size = 0x10000;
+        ethdriver.heap_size = 0x40000;
         ethdriver.dma_pool = 0x200000;
 
         time_server.timers_per_client = 8;
