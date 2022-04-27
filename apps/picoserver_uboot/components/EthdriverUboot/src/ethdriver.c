@@ -3,6 +3,7 @@
  */
 
 #include <camkes.h>
+#include <platsupport/delay.h>
 
 #include <uboot_drivers.h>
 #include <platform_devices.h>
@@ -53,8 +54,26 @@ int server_init(ps_io_ops_t *io_ops)
     /* Start the U-Boot driver library containing the ethernet driver */
     const char *device_paths[] = DEVICE_PATHS
     int error = initialise_uboot_drivers(io_ops, device_paths, DEVICE_PATHS_LENGTH);
-    if (error) {
+    if (error)
         ZF_LOGF("Unable to find an ethernet device");
+
+    /* Initialise ethernet */
+    error = uboot_eth_init();
+    if (error)
+        ZF_LOGF("Unable to initialise ethernet");
+
+    /* Wait for incoming data */
+    int ret;
+    while(1) {
+        // printf("Testing...\n");
+        ret = uboot_eth_receive();
+        if (ret > 0)
+            continue;
+        else if (ret < 0)
+            ZF_LOGE("eth_rx returned code %i", ret);
+
+        /* Add a small delay to prevent busy looping */
+        ps_mdelay(1);
     }
 
     return 0;
