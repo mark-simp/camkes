@@ -135,8 +135,9 @@ int client_rx(int *len)
         int ret = uboot_eth_receive(&packet);
 
         /* Exit the loop if there's no frame */
-        if (ret <= 0)
+        if (ret <= 0) {
             break;
+        }
 
         /* Discard any packets that are too long */
         if (ret > BUF_SIZE) {
@@ -147,8 +148,8 @@ int client_rx(int *len)
         /* Copy the received frame into the client buffers. Silently drop
          * frames if the buffers are full */
         client_t *client = detect_client(packet, ret);
-        if (!client)
-            if (is_broadcast(packet, ret) || is_multicast(packet, ret))
+        if (!client) {
+            if (is_broadcast(packet, ret) || is_multicast(packet, ret)) {
                 /* in a broadcast duplicate this buffer for every client */
                 for (int i = 0; i < num_clients; i++) {
                     client = &clients[i];
@@ -158,12 +159,14 @@ int client_rx(int *len)
                         client->pending_rx_head = (client->pending_rx_head + 1) % CLIENT_RX_BUFS;
                     }
                 }
-        else
+            }
+        } else {
             if ((client->pending_rx_head + 1) % CLIENT_RX_BUFS != client->pending_rx_tail) {
                 memcpy(client->pending_rx[client->pending_rx_head].buf, packet, ret);
                 client->pending_rx[client->pending_rx_head].len = ret;
                 client->pending_rx_head = (client->pending_rx_head + 1) % CLIENT_RX_BUFS;
             }
+        }
 
         /* Free the received packet from the driver's buffer */
         uboot_eth_free_packet(&packet);
@@ -172,9 +175,11 @@ int client_rx(int *len)
     /* Send the next frame (if any) for this client */
     int id = client_get_sender_id();
     client_t *client = NULL;
-    for (int i = 0; i < num_clients; i++)
-        if (clients[i].client_id == id)
+    for (int i = 0; i < num_clients; i++) {
+        if (clients[i].client_id == id) {
             client = &clients[i];
+        }
+    }
     assert(client);
 
     /* Return a negative result if there are no frames available for this client */
@@ -191,8 +196,9 @@ int client_rx(int *len)
     if (client->pending_rx_tail == client->pending_rx_head) {
         client_emit(client->client_id);
         return 0;
-    } else
+    } else {
         return 1;
+    }
 }
 
 int client_tx(int len)
@@ -218,10 +224,11 @@ int client_tx(int len)
     assert(client);
 
     /* transmit */
-    if (0 != uboot_eth_send(client->dataport, len))
+    if (0 != uboot_eth_send(client->dataport, len)) {
         return ETHIF_TX_FAILED;
-    else
+    } else {
         return ETHIF_TX_COMPLETE;
+    }
 }
 
 void client_mac(uint8_t *b1, uint8_t *b2, uint8_t *b3, uint8_t *b4, uint8_t *b5, uint8_t *b6)
@@ -250,13 +257,15 @@ int server_init(ps_io_ops_t *io_ops)
     /* Start the U-Boot driver library containing the ethernet driver */
     const char *device_paths[] = DEVICE_PATHS
     int error = initialise_uboot_drivers(io_ops, device_paths, DEVICE_PATHS_LENGTH);
-    if (error)
+    if (error) {
         ZF_LOGF("Unable to find an ethernet device");
+    }
 
     /* Initialise ethernet */
     error = uboot_eth_init();
-    if (error)
+    if (error) {
         ZF_LOGF("Unable to initialise ethernet");
+    }
 
     /* preallocate buffers */
     num_clients = client_num_badges();
@@ -284,8 +293,9 @@ int server_init(ps_io_ops_t *io_ops)
 
     done_init = 1;
 
-    for (int client = 0; client < num_clients; client++)
+    for (int client = 0; client < num_clients; client++) {
         client_emit(clients[client].client_id);
+    }
 
     return 0;
 }
