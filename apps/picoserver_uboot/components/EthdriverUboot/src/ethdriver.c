@@ -18,7 +18,7 @@
 #define BUF_SIZE 2048
 
 typedef struct rx_frame {
-    unsigned char *buf;
+    unsigned char buf[BUF_SIZE];
     int len;
 } rx_frame_t;
 
@@ -40,7 +40,7 @@ typedef struct client {
     seL4_Word client_id;
 
     /* dataport for this client */
-    void *dataport;
+    unsigned char *dataport;
 } client_t;
 
 static int num_clients = 0;
@@ -136,6 +136,12 @@ int client_rx(int *len)
         if (ret <= 0)
             break;
 
+        /* Discard any packets that are too long */
+        if (ret > BUF_SIZE) {
+            uboot_eth_free_packet(&packet);
+            break;
+        }
+
         /* Copy the received frame into the client buffers. Silently drop
          * frames if the buffers are full */
         client_t *client = detect_client(packet, *len);
@@ -145,17 +151,15 @@ int client_rx(int *len)
                 for (int i = 0; i < num_clients; i++) {
                     client = &clients[i];
                     if ((client->pending_rx_head + 1) % CLIENT_RX_BUFS != client->pending_rx_tail) {
-                        client->pending_rx[client->pending_rx_head] = (rx_frame_t) {
-                            packet, ret
-                        };
+                        memcpy(client->pending_rx[client->pending_rx_head].buf, packet, ret);
+                        client->pending_rx[client->pending_rx_head].len = ret;
                         client->pending_rx_head = (client->pending_rx_head + 1) % CLIENT_RX_BUFS;
                     }
                 }
         else
             if ((client->pending_rx_head + 1) % CLIENT_RX_BUFS != client->pending_rx_tail) {
-                client->pending_rx[client->pending_rx_head] = (rx_frame_t) {
-                    packet, ret
-                };
+                memcpy(client->pending_rx[client->pending_rx_head].buf, packet, ret);
+                client->pending_rx[client->pending_rx_head].len = ret;
                 client->pending_rx_head = (client->pending_rx_head + 1) % CLIENT_RX_BUFS;
             }
 
@@ -209,10 +213,9 @@ int client_tx(int len)
         }
     }
     assert(client);
-    unsigned char *packet = client->dataport;
 
     /* transmit */
-    if (0 != uboot_eth_send(packet, len))
+    if (0 != uboot_eth_send(client->dataport, len))
         return ETHIF_TX_FAILED;
     else
         return ETHIF_TX_COMPLETE;
