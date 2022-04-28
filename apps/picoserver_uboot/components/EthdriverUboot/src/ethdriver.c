@@ -121,8 +121,10 @@ static int is_multicast(void *buf, unsigned int len)
  */
 int client_rx(int *len)
 {
-    if (!done_init)
+    if (!done_init) {
+        *len = 0;
         return -1;
+    }
 
     unsigned char *packet;
 
@@ -144,9 +146,9 @@ int client_rx(int *len)
 
         /* Copy the received frame into the client buffers. Silently drop
          * frames if the buffers are full */
-        client_t *client = detect_client(packet, *len);
+        client_t *client = detect_client(packet, ret);
         if (!client)
-            if (is_broadcast(packet, *len) || is_multicast(packet, *len))
+            if (is_broadcast(packet, ret) || is_multicast(packet, ret))
                 /* in a broadcast duplicate this buffer for every client */
                 for (int i = 0; i < num_clients; i++) {
                     client = &clients[i];
@@ -178,13 +180,14 @@ int client_rx(int *len)
     /* Return a negative result if there are no frames available for this client */
     if (client->pending_rx_head == client->pending_rx_tail) {
         client_emit(client->client_id);
+        *len = 0;
         return -1;
     }
 
     rx_frame_t rx = client->pending_rx[client->pending_rx_tail];
-    client->pending_rx_tail = (client->pending_rx_tail + 1) % CLIENT_RX_BUFS;
     memcpy(client->dataport, rx.buf, rx.len);
     *len = rx.len;
+    client->pending_rx_tail = (client->pending_rx_tail + 1) % CLIENT_RX_BUFS;
     if (client->pending_rx_tail == client->pending_rx_head) {
         client_emit(client->client_id);
         return 0;
