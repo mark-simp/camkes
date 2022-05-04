@@ -23,6 +23,9 @@
 #define I2C_1_PATH      "/soc@0/bus@30800000/i2c@30a30000"
 #define I2C_2_PATH      "/soc@0/bus@30800000/i2c@30a40000"
 #define I2C_3_PATH      "/soc@0/bus@30800000/i2c@30a50000"
+#define SPI_0_PATH      "/soc@0/bus@30800000/spi@30820000"
+#define SPI_1_PATH      "/soc@0/bus@30800000/spi@30830000"
+#define SPI_2_PATH      "/soc@0/bus@30800000/spi@30840000"
 
 #define DEVICE_PATHS {                                                          \
     USB_2_PATH,                                                                 \
@@ -43,7 +46,10 @@
     I2C_0_PATH,                                                                 \
     I2C_1_PATH,                                                                 \
     I2C_2_PATH,                                                                 \
-    I2C_3_PATH                                                                  \
+    I2C_3_PATH,                                                                 \
+    SPI_0_PATH,                                                                 \
+    SPI_1_PATH,                                                                 \
+    SPI_2_PATH
     };
 #define DEVICE_PATHS_LENGTH 19
 
@@ -66,6 +72,9 @@
     consumes Dummy i2c_1;                                                       \
     consumes Dummy i2c_2;                                                       \
     consumes Dummy i2c_3;                                                       \
+    consumes Dummy spi_0;                                                       \
+    consumes Dummy spi_1;                                                       \
+    consumes Dummy spi_2;                                                       \
     emits Dummy dummy_source;
 
 #define HARDWARE_COMPOSITION                                                    \
@@ -83,10 +92,13 @@
     connection seL4DTBHardware gpio_3_conn(from dummy_source, to gpio_3);       \
     connection seL4DTBHardware gpio_4_conn(from dummy_source, to gpio_4);       \
     connection seL4DTBHardware gpio_5_conn(from dummy_source, to gpio_5);       \
-    connection seL4DTBHardware i2c_0_conn(from dummy_source, to i2c_0);          \
-    connection seL4DTBHardware i2c_1_conn(from dummy_source, to i2c_1);          \
-    connection seL4DTBHardware i2c_2_conn(from dummy_source, to i2c_2);          \
-    connection seL4DTBHardware i2c_3_conn(from dummy_source, to i2c_3);           
+    connection seL4DTBHardware i2c_0_conn(from dummy_source, to i2c_0);         \
+    connection seL4DTBHardware i2c_1_conn(from dummy_source, to i2c_1);         \
+    connection seL4DTBHardware i2c_2_conn(from dummy_source, to i2c_2);         \
+    connection seL4DTBHardware i2c_3_conn(from dummy_source, to i2c_3);         \
+    connection seL4DTBHardware spi_0_conn(from dummy_source, to spi_0);         \
+    connection seL4DTBHardware spi_1_conn(from dummy_source, to spi_1);         \
+    connection seL4DTBHardware spi_2_conn(from dummy_source, to spi_2);         
 
 #define HARDWARE_CONFIGURATION                                                  \
     usb_2.dtb     = dtb({ "path" : USB_2_PATH });                               \
@@ -106,4 +118,7 @@
     i2c_0.dtb     = dtb({ "path" : I2C_0_PATH });                               \
     i2c_1.dtb     = dtb({ "path" : I2C_1_PATH });                               \
     i2c_2.dtb     = dtb({ "path" : I2C_2_PATH });                               \
-    i2c_3.dtb     = dtb({ "path" : I2C_3_PATH });                               
+    i2c_3.dtb     = dtb({ "path" : I2C_3_PATH });                               \
+    spi_0.dtb     = dtb({ "path" : SPI_0_PATH });                               \
+    spi_1.dtb     = dtb({ "path" : SPI_1_PATH });                               \
+    spi_2.dtb     = dtb({ "path" : SPI_2_PATH });                               
