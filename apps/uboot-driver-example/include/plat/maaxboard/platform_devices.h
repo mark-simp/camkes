@@ -51,7 +51,7 @@
     SPI_1_PATH,                                                                 \
     SPI_2_PATH                                                                  \
     };
-#define DEVICE_PATHS_LENGTH 19
+#define DEVICE_PATHS_LENGTH 22
 
 #define HARDWARE_INTERFACES                                                     \
     consumes Dummy usb_2;                                                       \
