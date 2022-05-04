@@ -49,7 +49,7 @@
     I2C_3_PATH,                                                                 \
     SPI_0_PATH,                                                                 \
     SPI_1_PATH,                                                                 \
-    SPI_2_PATH
+    SPI_2_PATH                                                                  \
     };
 #define DEVICE_PATHS_LENGTH 19
 
