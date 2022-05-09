@@ -26,6 +26,16 @@
 #define SPI_0_PATH      "/soc@0/bus@30800000/spi@30820000"
 #define SPI_1_PATH      "/soc@0/bus@30800000/spi@30830000"
 #define SPI_2_PATH      "/soc@0/bus@30800000/spi@30840000"
+#define PLL_1_PATH      "/sys1_pll"
+#define PLL_2_PATH      "/sys2_pll"
+#define PLL_3_PATH      "/sys3_pll"
+#define CLK_1_PATH      "/clock-ckil"
+#define CLK_2_PATH      "/clock-osc-25m"
+#define CLK_3_PATH      "/clock-osc-27m"
+#define CLK_4_PATH      "/clock-ext1"
+#define CLK_5_PATH      "/clock-ext2"
+#define CLK_6_PATH      "/clock-ext3"
+#define CLK_7_PATH      "/clock-ext4"
 
 #define DEVICE_PATHS {                                                          \
     USB_2_PATH,                                                                 \
@@ -49,9 +59,19 @@
     I2C_3_PATH,                                                                 \
     SPI_0_PATH,                                                                 \
     SPI_1_PATH,                                                                 \
-    SPI_2_PATH                                                                  \
+    SPI_2_PATH,                                                                 \
+    PLL_1_PATH,                                                                 \
+    PLL_2_PATH,                                                                 \
+    PLL_3_PATH,                                                                 \
+    CLK_1_PATH,                                                                 \
+    CLK_2_PATH,                                                                 \
+    CLK_3_PATH,                                                                 \
+    CLK_4_PATH,                                                                 \
+    CLK_5_PATH,                                                                 \
+    CLK_6_PATH,                                                                 \
+    CLK_7_PATH                                                                  \
     };
-#define DEVICE_PATHS_LENGTH 22
+#define DEVICE_PATHS_LENGTH 32
 
 #define HARDWARE_INTERFACES                                                     \
     consumes Dummy usb_2;                                                       \

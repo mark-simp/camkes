@@ -18,7 +18,11 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
 
     run_uboot_command("dm tree");
 
-    run_uboot_command("sspi 0:0.0 24 FA0000");
+    run_uboot_command("clk dump");
+
+    run_uboot_command("sspi 0:1.3@1000000 16 D0");
+    run_uboot_command("sspi 1:1.3@1000000 16 D0");
+    run_uboot_command("sspi 2:1.3@1000000 16 D0");
 
     //run_uboot_command("clocks");
 
