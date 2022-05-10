@@ -20,9 +20,14 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
 
     run_uboot_command("clk dump");
 
-    run_uboot_command("sspi 0:0.3@1000000 16 D0");
-    run_uboot_command("sspi 1:0.3@1000000 16 D0");
-    run_uboot_command("sspi 2:0.3@1000000 16 D0");
+
+    printf("SPI sensor init: \n");
+    run_uboot_command("sspi 0:0.3@1000000 16 7508");
+    run_uboot_command("sspi 0:0.3@1000000 16 7437");
+    for (int x=0; x<=10; x++) {
+        printf("Data from sensor: \n");
+        run_uboot_command("sspi 0:0.3@1000000 24 FA");
+    }
 
     run_uboot_command("clocks");
 
