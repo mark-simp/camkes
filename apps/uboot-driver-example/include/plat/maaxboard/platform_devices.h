@@ -52,7 +52,7 @@
     I2C_1_PATH,                                                                 \
     I2C_2_PATH,                                                                 \
     I2C_3_PATH,                                                                 \
-    SPI_0_PATH,                                                                 \                                                               \
+    SPI_0_PATH,                                                                 \
     CLK_1_PATH,                                                                 \
     CLK_2_PATH,                                                                 \
     CLK_3_PATH,                                                                 \
@@ -82,7 +82,7 @@
     consumes Dummy i2c_1;                                                       \
     consumes Dummy i2c_2;                                                       \
     consumes Dummy i2c_3;                                                       \
-    consumes Dummy spi_0;                                                       \                                                     \
+    consumes Dummy spi_0;                                                       \
     emits Dummy dummy_source;
 
 #define HARDWARE_COMPOSITION                                                    \
