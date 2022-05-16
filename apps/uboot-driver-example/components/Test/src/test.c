@@ -20,13 +20,19 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
 
     run_uboot_command("clk dump");
 
+    printf("Initialising BMP280 sensor on SPI bus (if connected):\n");
+    // Read id register of device on SPI bus 0
+    // For the BMP280 sensor, expect to return id of 0x58
+    run_uboot_command("sspi 0:0.3@1000000 16 D000");
 
-    printf("SPI sensor init: \n");
+    // Initialise BMP280 prior to reading temperature register
     run_uboot_command("sspi 0:0.3@1000000 16 7508");
     run_uboot_command("sspi 0:0.3@1000000 16 7437");
+
+    // The raw data does not correspond to meaningful temperatures without further processing
+    printf("Raw temperature data from BMP280 sensor:\n");
     for (int x=0; x<=10; x++) {
-        printf("Data from sensor: \n");
-        run_uboot_command("sspi 0:0.3@1000000 24 FA");
+        run_uboot_command("sspi 0:0.3@1000000 24 FA0000");
     }
 
     run_uboot_command("clocks");
@@ -45,10 +51,26 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
         run_uboot_command("led sys_led off");
     }
 
-    run_uboot_command("setenv ipaddr 192.168.1.106");
+    // Probe and read device already present on MaaXBoard I2C bus
+    run_uboot_command("i2c dev 0");
+    run_uboot_command("i2c probe");
+    run_uboot_command("i2c md 0x4b 0x0.1 0x20");
 
+    /* Edit the following for your IP addresses:
+     * run_uboot_command("setenv ipaddr xxx.xxx.xxx.xxx"); // IP address to allocate to MaaXBoard
+     * run_uboot_command("ping yyy.yyy.yyy.yyy"); // IP address of host machine
+     */
+    run_uboot_command("setenv ipaddr 192.168.1.106");
     run_uboot_command("ping 192.168.1.194");
 
+    /* Optionally, to ping to an address beyond the local network:
+     * run_uboot_command("setenv gatewayip zzz.zzz.zzz.zzz"); // IP address of router
+     * run_uboot_command("setenv netmask 255.255.255.0");
+     * run_uboot_command("ping 8.8.8.8"); // An example internet IP address (Google DNS)
+     */
+
+    // USB and SD/MMC operations
+    
     run_uboot_command("setenv stdin usbkbd"); // Use a USB keyboard as the input device
 
     run_uboot_command("usb start");
