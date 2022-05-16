@@ -53,6 +53,7 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
 
     // Probe and read device already present on MaaXBoard I2C bus
     run_uboot_command("i2c dev 0");
+    // Probing I2C bus 0 should return chip address of 0x4b for BD71837MWV Power Management IC
     run_uboot_command("i2c probe");
     run_uboot_command("i2c md 0x4b 0x0.1 0x20");
 
