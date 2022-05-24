@@ -71,7 +71,7 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
      */
 
     // USB and SD/MMC operations
-    
+
     run_uboot_command("setenv stdin usbkbd"); // Use a USB keyboard as the input device
 
     run_uboot_command("usb start");
@@ -95,7 +95,7 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
     // Loop for a while reading keypresses and echoing to screen
     printf("Echoing input from the USB keyboard:\n");
     for (int x=0; x<=1000; x++) {
-        while (uboot_stdin_tstc())
+        while (uboot_stdin_tstc() > 0)
             printf("Received character: %c\n", uboot_stdin_getc(), stdout);
         ps_mdelay(10);
     }
