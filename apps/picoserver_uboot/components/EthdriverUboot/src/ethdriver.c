@@ -255,8 +255,15 @@ int server_init(ps_io_ops_t *io_ops)
     printf("Starting U-Boot driver library\n");
 
     /* Start the U-Boot driver library containing the ethernet driver */
-    const char *device_paths[] = DEVICE_PATHS
-    int error = initialise_uboot_drivers(io_ops, device_paths, DEVICE_PATHS_LENGTH);
+    const char *const_reg_paths[] = REG_PATHS;
+    const char *const_dev_paths[] = DEV_PATHS;
+    error = initialise_uboot_drivers(
+        /* Provide the platform support IO operations */
+        io_ops,
+        /* List the device tree paths that need to be memory mapped */
+        const_reg_paths, REG_PATH_COUNT,
+        /* List the device tree paths for the devices */
+        const_dev_paths, DEV_PATH_COUNT));
     if (error) {
         ZF_LOGF("Unable to find an ethernet device");
     }
