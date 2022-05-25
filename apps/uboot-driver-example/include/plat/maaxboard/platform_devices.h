@@ -4,64 +4,120 @@
 
 #pragma once
 
-#define TIMER_PATH      "/soc@0/bus@30400000/timer@306a0000"
-#define CCM_PATH        "/soc@0/bus@30000000/clock-controller@30380000"
-#define IOMUXC_PATH     "/soc@0/bus@30000000/iomuxc@30330000"
-#define OCOTP_PATH      "/soc@0/bus@30000000/ocotp-ctrl@30350000"
-#define SYSCON_PATH     "/soc@0/bus@30000000/syscon@30360000"
-#define USB_2_PATH      "/soc@0/usb@38200000"
-#define USB_PHY_2_PATH  "/soc@0/usb-phy@382f0040"
-#define MMC_PATH        "/soc@0/bus@30800000/mmc@30b40000"
-#define ETH_PATH        "/soc@0/bus@30800000/ethernet@30be0000"
-#define GPIO_1_PATH     "/soc@0/bus@30000000/gpio@30200000"
-#define GPIO_2_PATH     "/soc@0/bus@30000000/gpio@30210000"
-#define GPIO_3_PATH     "/soc@0/bus@30000000/gpio@30220000"
-#define GPIO_4_PATH     "/soc@0/bus@30000000/gpio@30230000"
-#define GPIO_5_PATH     "/soc@0/bus@30000000/gpio@30240000"
-#define LEDS_PATH       "/leds"
-#define I2C_0_PATH      "/soc@0/bus@30800000/i2c@30a20000"
-#define I2C_1_PATH      "/soc@0/bus@30800000/i2c@30a30000"
-#define I2C_2_PATH      "/soc@0/bus@30800000/i2c@30a40000"
-#define I2C_3_PATH      "/soc@0/bus@30800000/i2c@30a50000"
-#define SPI_0_PATH      "/soc@0/bus@30800000/spi@30820000"
-#define CLK_1_PATH      "/clock-ckil"
-#define CLK_2_PATH      "/clock-osc-25m"
-#define CLK_3_PATH      "/clock-osc-27m"
-#define CLK_4_PATH      "/clock-ext1"
-#define CLK_5_PATH      "/clock-ext2"
-#define CLK_6_PATH      "/clock-ext3"
-#define CLK_7_PATH      "/clock-ext4"
+/* List the set of device tree paths that include the 'reg' entries
+ * for memory regions that will need to be mapped */
 
-#define DEVICE_PATHS {                                                          \
-    USB_2_PATH,                                                                 \
-    USB_PHY_2_PATH,                                                             \
-    MMC_PATH,                                                                   \
-    ETH_PATH,                                                                   \
-    TIMER_PATH,                                                                 \
-    CCM_PATH,                                                                   \
-    OCOTP_PATH,                                                                 \
-    SYSCON_PATH,                                                                \
-    IOMUXC_PATH,                                                                \
-    GPIO_1_PATH,                                                                \
-    GPIO_2_PATH,                                                                \
-    GPIO_3_PATH,                                                                \
-    GPIO_4_PATH,                                                                \
-    GPIO_5_PATH,                                                                \
-    LEDS_PATH,                                                                  \
-    I2C_0_PATH,                                                                 \
-    I2C_1_PATH,                                                                 \
-    I2C_2_PATH,                                                                 \
-    I2C_3_PATH,                                                                 \
-    SPI_0_PATH,                                                                 \
-    CLK_1_PATH,                                                                 \
-    CLK_2_PATH,                                                                 \
-    CLK_3_PATH,                                                                 \
-    CLK_4_PATH,                                                                 \
-    CLK_5_PATH,                                                                 \
-    CLK_6_PATH,                                                                 \
-    CLK_7_PATH                                                                  \
+#define REG_TIMER_PATH      "/soc@0/bus@30400000/timer@306a0000"
+#define REG_CCM_PATH        "/soc@0/bus@30000000/clock-controller@30380000"
+#define REG_IOMUXC_PATH     "/soc@0/bus@30000000/iomuxc@30330000"
+#define REG_OCOTP_PATH      "/soc@0/bus@30000000/ocotp-ctrl@30350000"
+#define REG_SYSCON_PATH     "/soc@0/bus@30000000/syscon@30360000"
+#define REG_USB_2_PATH      "/soc@0/usb@38200000"
+#define REG_USB_PHY_2_PATH  "/soc@0/usb-phy@382f0040"
+#define REG_MMC_PATH        "/soc@0/bus@30800000/mmc@30b40000"
+#define REG_ETH_PATH        "/soc@0/bus@30800000/ethernet@30be0000"
+#define REG_GPIO_1_PATH     "/soc@0/bus@30000000/gpio@30200000"
+#define REG_GPIO_2_PATH     "/soc@0/bus@30000000/gpio@30210000"
+#define REG_GPIO_3_PATH     "/soc@0/bus@30000000/gpio@30220000"
+#define REG_GPIO_4_PATH     "/soc@0/bus@30000000/gpio@30230000"
+#define REG_GPIO_5_PATH     "/soc@0/bus@30000000/gpio@30240000"
+#define REG_I2C_0_PATH      "/soc@0/bus@30800000/i2c@30a20000"
+#define REG_I2C_1_PATH      "/soc@0/bus@30800000/i2c@30a30000"
+#define REG_I2C_2_PATH      "/soc@0/bus@30800000/i2c@30a40000"
+#define REG_I2C_3_PATH      "/soc@0/bus@30800000/i2c@30a50000"
+#define REG_SPI_0_PATH      "/soc@0/bus@30800000/spi@30820000"
+
+#define REG_PATH_COUNT 19
+
+#define REG_PATHS {                                                             \
+    REG_USB_2_PATH,                                                             \
+    REG_USB_PHY_2_PATH,                                                         \
+    REG_MMC_PATH,                                                               \
+    REG_ETH_PATH,                                                               \
+    REG_TIMER_PATH,                                                             \
+    REG_CCM_PATH,                                                               \
+    REG_OCOTP_PATH,                                                             \
+    REG_SYSCON_PATH,                                                            \
+    REG_IOMUXC_PATH,                                                            \
+    REG_GPIO_1_PATH,                                                            \
+    REG_GPIO_2_PATH,                                                            \
+    REG_GPIO_3_PATH,                                                            \
+    REG_GPIO_4_PATH,                                                            \
+    REG_GPIO_5_PATH,                                                            \
+    REG_I2C_0_PATH,                                                             \
+    REG_I2C_1_PATH,                                                             \
+    REG_I2C_2_PATH,                                                             \
+    REG_I2C_3_PATH,                                                             \
+    REG_SPI_0_PATH                                                              \
     };
-#define DEVICE_PATHS_LENGTH 27
+
+/* List the set of device tree paths for the devices we wish to access.
+ * Note these need ot be the root nodes of each device which the
+ * the library supplies a driver */
+
+#define DEV_TIMER_PATH      REG_TIMER_PATH
+#define DEV_CCM_PATH        REG_CCM_PATH
+#define DEV_IOMUXC_PATH     REG_IOMUXC_PATH
+#define DEV_OCOTP_PATH      REG_OCOTP_PATH
+#define DEV_SYSCON_PATH     REG_SYSCON_PATH
+#define DEV_USB_2_PATH      REG_USB_2_PATH
+#define DEV_USB_PHY_2_PATH  REG_USB_PHY_2_PATH
+#define DEV_MMC_PATH        REG_MMC_PATH
+#define DEV_ETH_PATH        REG_ETH_PATH
+#define DEV_GPIO_1_PATH     REG_GPIO_1_PATH
+#define DEV_GPIO_2_PATH     REG_GPIO_2_PATH
+#define DEV_GPIO_3_PATH     REG_GPIO_3_PATH
+#define DEV_GPIO_4_PATH     REG_GPIO_4_PATH
+#define DEV_GPIO_5_PATH     REG_GPIO_5_PATH
+#define DEV_I2C_0_PATH      REG_I2C_0_PATH
+#define DEV_I2C_1_PATH      REG_I2C_1_PATH
+#define DEV_I2C_2_PATH      REG_I2C_2_PATH
+#define DEV_I2C_3_PATH      REG_I2C_3_PATH
+#define DEV_SPI_0_PATH      REG_SPI_0_PATH
+#define DEV_LEDS_PATH       "/leds"
+#define DEV_CLK_1_PATH      "/clock-ckil"
+#define DEV_CLK_2_PATH      "/clock-osc-25m"
+#define DEV_CLK_3_PATH      "/clock-osc-27m"
+#define DEV_CLK_4_PATH      "/clock-ext1"
+#define DEV_CLK_5_PATH      "/clock-ext2"
+#define DEV_CLK_6_PATH      "/clock-ext3"
+#define DEV_CLK_7_PATH      "/clock-ext4"
+
+#define DEV_PATH_COUNT 27
+
+#define DEV_PATHS {                                                             \
+    DEV_USB_2_PATH,                                                             \
+    DEV_USB_PHY_2_PATH,                                                         \
+    DEV_MMC_PATH,                                                               \
+    DEV_ETH_PATH,                                                               \
+    DEV_TIMER_PATH,                                                             \
+    DEV_CCM_PATH,                                                               \
+    DEV_OCOTP_PATH,                                                             \
+    DEV_SYSCON_PATH,                                                            \
+    DEV_IOMUXC_PATH,                                                            \
+    DEV_GPIO_1_PATH,                                                            \
+    DEV_GPIO_2_PATH,                                                            \
+    DEV_GPIO_3_PATH,                                                            \
+    DEV_GPIO_4_PATH,                                                            \
+    DEV_GPIO_5_PATH,                                                            \
+    DEV_I2C_0_PATH,                                                             \
+    DEV_I2C_1_PATH,                                                             \
+    DEV_I2C_2_PATH,                                                             \
+    DEV_I2C_3_PATH,                                                             \
+    DEV_SPI_0_PATH,                                                             \
+    DEV_LEDS_PATH,                                                              \
+    DEV_CLK_1_PATH,                                                             \
+    DEV_CLK_2_PATH,                                                             \
+    DEV_CLK_3_PATH,                                                             \
+    DEV_CLK_4_PATH,                                                             \
+    DEV_CLK_5_PATH,                                                             \
+    DEV_CLK_6_PATH,                                                             \
+    DEV_CLK_7_PATH                                                              \
+    };
+
+/* Provide the hardware settings for CAmkES. Note that we only need to inform
+ * CAmkES with the devices with memory mapped regions, i.e. the REG_xxx
+ * devices. */
 
 #define HARDWARE_INTERFACES                                                     \
     consumes Dummy usb_2;                                                       \
@@ -104,25 +160,25 @@
     connection seL4DTBHardware i2c_1_conn(from dummy_source, to i2c_1);         \
     connection seL4DTBHardware i2c_2_conn(from dummy_source, to i2c_2);         \
     connection seL4DTBHardware i2c_3_conn(from dummy_source, to i2c_3);         \
-    connection seL4DTBHardware spi_0_conn(from dummy_source, to spi_0);        
+    connection seL4DTBHardware spi_0_conn(from dummy_source, to spi_0);
 
 #define HARDWARE_CONFIGURATION                                                  \
-    usb_2.dtb     = dtb({ "path" : USB_2_PATH });                               \
-    usb_phy_2.dtb = dtb({ "path" : USB_PHY_2_PATH });                           \
-    mmc.dtb       = dtb({ "path" : MMC_PATH });                                 \
-    eth.dtb       = dtb({ "path" : ETH_PATH });                                 \
-    timer.dtb     = dtb({ "path" : TIMER_PATH });                               \
-    ccm.dtb       = dtb({ "path" : CCM_PATH });                                 \
-    syscon.dtb    = dtb({ "path" : SYSCON_PATH });                              \
-    ocotp.dtb     = dtb({ "path" : OCOTP_PATH });                               \
-    iomuxc.dtb    = dtb({ "path" : IOMUXC_PATH });                              \
-    gpio_1.dtb    = dtb({ "path" : GPIO_1_PATH });                              \
-    gpio_2.dtb    = dtb({ "path" : GPIO_2_PATH });                              \
-    gpio_3.dtb    = dtb({ "path" : GPIO_3_PATH });                              \
-    gpio_4.dtb    = dtb({ "path" : GPIO_4_PATH });                              \
-    gpio_5.dtb    = dtb({ "path" : GPIO_5_PATH });                              \
-    i2c_0.dtb     = dtb({ "path" : I2C_0_PATH });                               \
-    i2c_1.dtb     = dtb({ "path" : I2C_1_PATH });                               \
-    i2c_2.dtb     = dtb({ "path" : I2C_2_PATH });                               \
-    i2c_3.dtb     = dtb({ "path" : I2C_3_PATH });                               \
-    spi_0.dtb     = dtb({ "path" : SPI_0_PATH });                     
+    usb_2.dtb     = dtb({ "path" : REG_USB_2_PATH });                           \
+    usb_phy_2.dtb = dtb({ "path" : REG_USB_PHY_2_PATH });                       \
+    mmc.dtb       = dtb({ "path" : REG_MMC_PATH });                             \
+    eth.dtb       = dtb({ "path" : REG_ETH_PATH });                             \
+    timer.dtb     = dtb({ "path" : REG_TIMER_PATH });                           \
+    ccm.dtb       = dtb({ "path" : REG_CCM_PATH });                             \
+    syscon.dtb    = dtb({ "path" : REG_SYSCON_PATH });                          \
+    ocotp.dtb     = dtb({ "path" : REG_OCOTP_PATH });                           \
+    iomuxc.dtb    = dtb({ "path" : REG_IOMUXC_PATH });                          \
+    gpio_1.dtb    = dtb({ "path" : REG_GPIO_1_PATH });                          \
+    gpio_2.dtb    = dtb({ "path" : REG_GPIO_2_PATH });                          \
+    gpio_3.dtb    = dtb({ "path" : REG_GPIO_3_PATH });                          \
+    gpio_4.dtb    = dtb({ "path" : REG_GPIO_4_PATH });                          \
+    gpio_5.dtb    = dtb({ "path" : REG_GPIO_5_PATH });                          \
+    i2c_0.dtb     = dtb({ "path" : REG_I2C_0_PATH });                           \
+    i2c_1.dtb     = dtb({ "path" : REG_I2C_1_PATH });                           \
+    i2c_2.dtb     = dtb({ "path" : REG_I2C_2_PATH });                           \
+    i2c_3.dtb     = dtb({ "path" : REG_I2C_3_PATH });                           \
+    spi_0.dtb     = dtb({ "path" : REG_SPI_0_PATH });
