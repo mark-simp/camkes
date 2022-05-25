@@ -93,6 +93,10 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
 
     run_uboot_command("fatls mmc 0");
 
+    run_uboot_command("pinmux status -a");
+
+    run_uboot_command("gpio status -a");
+
     run_uboot_command("dm tree");
 
     run_uboot_command("usb tree");
