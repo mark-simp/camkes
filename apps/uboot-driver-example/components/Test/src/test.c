@@ -25,9 +25,9 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
 
     run_uboot_command("dm tree");
 
-    run_uboot_command("clk dump");
+#if CONFIG_PLAT == maaxboard
 
-#if PLATFORM == maaxboard
+    run_uboot_command("clk dump");
 
     printf("Initialising BMP280 sensor on SPI bus (if connected):\n");
     // Read id register of device on SPI bus 0
