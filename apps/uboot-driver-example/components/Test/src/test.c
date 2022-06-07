@@ -25,8 +25,6 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
 
     run_uboot_command("dm tree");
 
-#if CONFIG_PLAT == maaxboard
-
     run_uboot_command("clk dump");
 
     printf("Initialising BMP280 sensor on SPI bus (if connected):\n");
@@ -114,8 +112,6 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
     }
 
     run_uboot_command("usb stop");
-
-#endif // PLATFORM == maaxboard
 
     shutdown_uboot_drivers();
 
