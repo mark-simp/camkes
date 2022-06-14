@@ -11,16 +11,17 @@
  * Note these need to be the root nodes of each device to be accessed */
 #define PINCTRL1_PATH "/soc/bus@c8100000/pinctrl@14"
 #define PINCTRL2_PATH "/soc/periphs@c8834000/pinctrl@4b0"
-#define DEV_PATHS { PINCTRL1_PATH, PINCTRL2_PATH };
-#define DEV_PATH_COUNT 2
+#define LEDS_PATH "/leds"
+#define DEV_PATHS { PINCTRL1_PATH, PINCTRL2_PATH, LEDS_PATH };
+#define DEV_PATH_COUNT 3
 
 /* Provide the hardware settings for CAmkES. Note that we only need to inform
  * CAmkES of the devices with memory mapped regions, i.e. the REG_xxx
  * devices. See https://docs.sel4.systems/projects/camkes for syntax */
 
-#define HARDWARE_INTERFACES                                                   \
-    consumes Dummy bus;                                                       \
-    consumes Dummy periphs;                                                   \
+#define HARDWARE_INTERFACES                                                 \
+    consumes Dummy bus;                                                     \
+    consumes Dummy periphs;                                                 \
     emits Dummy dummy_source;
 
 #define HARDWARE_COMPOSITION                                                \
@@ -29,4 +30,4 @@
 
 #define HARDWARE_CONFIGURATION                                              \
     bus.dtb     = dtb({ "path" : BUS_PATH });                               \
-    periphs.dtb = dtb({ "path" : PERIPHS_PATH });                           \
+    periphs.dtb = dtb({ "path" : PERIPHS_PATH });
