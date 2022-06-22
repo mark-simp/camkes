@@ -7,6 +7,8 @@
 import "../../interfaces/Lock_RPC.idl4";
 
 component Transmitter {
+    control;
+
     include "dataport_buffer.h";
 
     // Dataport for receiving encrypted characters form the Crypto component

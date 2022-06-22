@@ -7,8 +7,6 @@
 #include <camkes.h>
 #include <string.h>
 
-#include <dataport_buffer.h>
-
 /* Encryption routine. For the purposes of the demo we use "rot 13" */
 char rot_13(char src)
 {
@@ -53,16 +51,13 @@ void b_handle_character(char c)
 {
     char encrypted_char = rot_13(c);
 
-    printf("Crypto received char '%c', encrypted to '%c'\n", c, encrypted_char);
-
-    printf("Dataport head = %i, tail = %i\n", d->head, d->tail);
-
     /* Add data to the circular buffer held in the dataport. As the dataport is
-     * shared with another component we ensure that only component accesses it
+     * shared with another component we ensure that only one component accesses it
      * at the time through use of a mutex */
 
     l_lock(); // Start of critical section
 
+    d_acquire();
     if ((char)(d->head + 1) == d->tail) {
         /* Buffer is full, discard the character */
         printf("Crypto: Dataport buffer is full, discarding character\n");
@@ -70,7 +65,7 @@ void b_handle_character(char c)
         d->data[d->head] = encrypted_char;
         d->head += 1;
     }
+    d_release();
 
     l_unlock(); // End of critical section
-
 }

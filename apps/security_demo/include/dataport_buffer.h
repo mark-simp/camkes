@@ -26,9 +26,9 @@
  */
 
 typedef struct {
-  char data[256];
-  char head;
-  char tail;
+    char data[256];
+    char head;
+    char tail;
 } dataport_buffer_t;
 
 #endif
