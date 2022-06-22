@@ -31,6 +31,20 @@ char rot_13(char src)
     return result;
 }
 
+void l_lock(void)
+{
+    int error = m_lock();
+    if (error != 0)
+        printf("Crypto: Error when locking mutex\n");
+}
+
+void l_unlock(void)
+{
+    int error = m_unlock();
+    if (error != 0)
+        printf("Crypto: Error when unlocking mutex\n");
+}
+
 void b__init(void)
 {
 }
@@ -43,7 +57,11 @@ void b_handle_character(char c)
 
     printf("Dataport head = %i, tail = %i\n", d->head, d->tail);
 
-    /* Add data to the circular buffer held in the dataport */
+    /* Add data to the circular buffer held in the dataport. As the dataport is
+     * shared with another component we ensure that only component accesses it
+     * at the time through use of a mutex */
+
+    l_lock(); // Start of critical section
 
     if ((char)(d->head + 1) == d->tail) {
         /* Buffer is full, discard the character */
@@ -52,5 +70,7 @@ void b_handle_character(char c)
         d->data[d->head] = encrypted_char;
         d->head += 1;
     }
+
+    l_unlock(); // End of critical section
 
 }

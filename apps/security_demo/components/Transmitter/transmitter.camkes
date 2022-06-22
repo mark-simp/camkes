@@ -4,9 +4,14 @@
  * SPDX-License-Identifier: BSD-2-Clause
  */
 
- component Transmitter {
+import "../../interfaces/Lock_RPC.idl4";
+
+component Transmitter {
     include "dataport_buffer.h";
 
     // Dataport for receiving encrypted characters form the Crypto component
     dataport dataport_buffer_t d;
+
+    // Lock to serialise access to the dataport_buffer
+    uses Lock_RPC l;
 }

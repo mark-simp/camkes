@@ -5,6 +5,7 @@
  */
 
 import "../../interfaces/Character_RPC.idl4";
+import "../../interfaces/Lock_RPC.idl4";
 
 component Crypto {
     include "dataport_buffer.h";
@@ -14,5 +15,11 @@ component Crypto {
 
     // Dataport for sending encrypted characters to the Transmitter component
     dataport dataport_buffer_t d;
+
+    // Lock to serialise access to the dataport_buffer
+    provides Lock_RPC l;
+
+    // Mutex to implement the dataport_buffer lock
+    has mutex m;
 }
 
