@@ -10,11 +10,14 @@ import "components/Crypto/crypto.camkes";
 import "components/Key_Reader/key_reader.camkes";
 
 assembly {
-        composition {
-                component Crypto crypto;
-                component Key_Reader key_reader;
+    composition {
+        component Crypto crypto;
+        component Key_Reader key_reader;
 
-                connection seL4RPCCall simple(from key_reader.a, to crypto.b);
-        }
+        connection seL4RPCCall keypress(from key_reader.a, to crypto.b);
+    }
+
+    configuration {
+        key_reader.dma_pool = 16 * 1024; /* Provide DMA for USB driver */
+    }
 }
-

@@ -4,9 +4,23 @@
  * SPDX-License-Identifier: BSD-2-Clause
  */
 
+#include <camkes-single-threaded.h>
+#include <usb_platform_devices.h>
+
 import "../../interfaces/Character_RPC.idl4";
 
 component Key_Reader {
-        control;
-        uses Character_RPC a;
+    single_threaded_component()
+
+    uses Character_RPC a;
+
+    HARDWARE_INTERFACES
+
+    composition {
+        HARDWARE_COMPOSITION
+    }
+
+    configuration {
+        HARDWARE_CONFIGURATION
+    }
 }

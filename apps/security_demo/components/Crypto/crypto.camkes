@@ -7,6 +7,6 @@
 import "../../interfaces/Character_RPC.idl4";
 
 component Crypto {
-        provides Character_RPC b;
+    provides Character_RPC b;
 }
 
