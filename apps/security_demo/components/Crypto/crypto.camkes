@@ -7,6 +7,12 @@
 import "../../interfaces/Character_RPC.idl4";
 
 component Crypto {
+    include "dataport_buffer.h";
+
+    // RPC interface for receiving plain text characters from the Key_Reader component
     provides Character_RPC b;
+
+    // Dataport for sending encrypted characters to the Transmitter component
+    dataport dataport_buffer_t d;
 }
 

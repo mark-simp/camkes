@@ -7,6 +7,8 @@
 #include <camkes.h>
 #include <string.h>
 
+#include <dataport_buffer.h>
+
 /* Encryption routine. For the purposes of the demo we use "rot 13" */
 char rot_13(char src)
 {
@@ -35,5 +37,20 @@ void b__init(void)
 
 void b_handle_character(char c)
 {
-    printf("Crypto received char '%c', encrypted to '%c'\n", c, rot_13(c));
+    char encrypted_char = rot_13(c);
+
+    printf("Crypto received char '%c', encrypted to '%c'\n", c, encrypted_char);
+
+    printf("Dataport head = %i, tail = %i\n", d->head, d->tail);
+
+    /* Add data to the circular buffer held in the dataport */
+
+    if ((char)(d->head + 1) == d->tail) {
+        /* Buffer is full, discard the character */
+        printf("Crypto: Dataport buffer is full, discarding character\n");
+    } else {
+        d->data[d->head] = encrypted_char;
+        d->head += 1;
+    }
+
 }

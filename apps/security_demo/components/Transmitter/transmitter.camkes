@@ -1,0 +1,12 @@
+/*
+ * Copyright 2022, Capgemini Engineering
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
+ component Transmitter {
+    include "dataport_buffer.h";
+
+    // Dataport for receiving encrypted characters form the Crypto component
+    dataport dataport_buffer_t d;
+}

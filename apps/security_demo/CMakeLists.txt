@@ -15,7 +15,10 @@ includeGlobalComponents()
 DeclareCAmkESComponent(
     Crypto
     SOURCES
-    components/Crypto/src/crypto.c)
+    components/Crypto/src/crypto.c
+    INCLUDES
+    include
+)
 
 DeclareCAmkESComponent(
     Key_Reader
@@ -24,6 +27,15 @@ DeclareCAmkESComponent(
     INCLUDES
     include/plat/${KernelPlatform}
     LIBS
-    ubootdrivers)
+    ubootdrivers
+)
+
+DeclareCAmkESComponent(
+    Transmitter
+    SOURCES
+    components/Transmitter/src/transmitter.c
+    INCLUDES
+    include
+)
 
 DeclareCAmkESRootserver(security_demo.camkes)
