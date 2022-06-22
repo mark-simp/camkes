@@ -1,0 +1,20 @@
+/*
+ * Copyright 2022, Capgemini Engineering
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
+import <std_connector.camkes>;
+
+import "components/Crypto/crypto.camkes";
+import "components/Key_Reader/key_reader.camkes";
+
+assembly {
+        composition {
+                component Crypto crypto;
+                component Key_Reader key_reader;
+
+                connection seL4RPCCall simple(from key_reader.a, to crypto.b);
+        }
+}
+

@@ -1,0 +1,12 @@
+/*
+ * Copyright 2022, Capgemini Engineering
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
+import "../../interfaces/Character_RPC.idl4";
+
+component Key_Reader {
+        control;
+        uses Character_RPC a;
+}
