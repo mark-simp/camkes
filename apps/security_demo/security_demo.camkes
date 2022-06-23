@@ -19,6 +19,7 @@ assembly {
         connection seL4RPCCall keypress(from key_reader.a, to crypto.b);
         connection seL4SharedData buffer(from crypto.d, to transmitter.d);
         connection seL4RPCCall buffer_lock(from transmitter.l, to crypto.l);
+        connection seL4Notification buffer_notify(from crypto.e, to transmitter.e);
     }
 
     configuration {

@@ -7,12 +7,12 @@
 #include <camkes.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <platsupport/delay.h>
 
 int run(void) {
 
     while(1) {
-        ps_mdelay(2500);
+        /* Wait for a notification that data has been written to the buffer */
+        e_wait();
 
         /* Retrieve data from the circular buffer held in the dataport. As the dataport
          * is shared with another component we ensure that only one component accesses it

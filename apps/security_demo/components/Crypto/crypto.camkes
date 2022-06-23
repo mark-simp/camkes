@@ -21,5 +21,8 @@ component Crypto {
 
     // Mutex to implement the dataport_buffer lock
     has mutex m;
+
+    // Event to notify that data has been written to the dataport_buffer
+    emits dataport_event e;
 }
 

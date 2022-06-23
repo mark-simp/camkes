@@ -64,4 +64,7 @@ void b_handle_character(char c)
     d_release();
 
     l_unlock(); // End of critical section
+
+    /* Emit a notification that data has been written to the buffer */
+    e_emit();
 }

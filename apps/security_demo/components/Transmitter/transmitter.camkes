@@ -16,4 +16,7 @@ component Transmitter {
 
     // Lock to serialise access to the dataport_buffer
     uses Lock_RPC l;
+
+    // Event to notify that data has been written to the dataport_buffer
+    consumes dataport_event e;
 }
