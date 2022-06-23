@@ -43,10 +43,6 @@ void l_unlock(void)
         printf("Crypto: Error when unlocking mutex\n");
 }
 
-void b__init(void)
-{
-}
-
 void b_handle_character(char c)
 {
     char encrypted_char = rot_13(c);
