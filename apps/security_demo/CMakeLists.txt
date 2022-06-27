@@ -21,9 +21,9 @@ DeclareCAmkESComponent(
 )
 
 DeclareCAmkESComponent(
-    Key_Reader
+    KeyReader
     SOURCES
-    components/Key_Reader/src/key_reader.c
+    components/KeyReader/src/key_reader.c
     INCLUDES
     include/plat/${KernelPlatform}
     LIBS

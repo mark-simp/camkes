@@ -9,7 +9,7 @@
 
 import "../../interfaces/Character_RPC.idl4";
 
-component Key_Reader {
+component KeyReader {
     single_threaded_component()
 
     uses Character_RPC a;

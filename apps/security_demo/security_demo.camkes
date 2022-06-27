@@ -7,13 +7,13 @@
 import <std_connector.camkes>;
 
 import "components/Crypto/crypto.camkes";
-import "components/Key_Reader/key_reader.camkes";
+import "components/KeyReader/key_reader.camkes";
 import "components/Transmitter/transmitter.camkes";
 
 assembly {
     composition {
         component Crypto crypto;
-        component Key_Reader key_reader;
+        component KeyReader key_reader;
         component Transmitter transmitter;
 
         connection seL4RPCCall keypress(from key_reader.a, to crypto.b);
