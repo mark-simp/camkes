@@ -12,6 +12,12 @@ CAmkESAddCPPInclude("${CMAKE_CURRENT_LIST_DIR}/include/plat/${KernelPlatform}/")
 
 includeGlobalComponents()
 
+# Setting for the PicoTCP library
+set(PICOSERVER_IP_ADDR "" CACHE STRING "IP address for the Picoserver component")
+set(LibPicotcp ON CACHE BOOL "" FORCE)
+set(LibPicotcpBsd OFF CACHE BOOL "" FORCE)
+set(LibEthdriverNumPreallocatedBuffers 32 CACHE STRING "" FORCE)
+
 DeclareCAmkESComponent(
     Crypto
     SOURCES
@@ -38,4 +44,27 @@ DeclareCAmkESComponent(
     include
 )
 
-DeclareCAmkESRootserver(security_demo.camkes)
+DeclareCAmkESComponent(
+    Echo
+    SOURCES
+    components/Echo/src/echo.c
+    LIBS
+    picotcp
+    PicoServer-client
+)
+
+DeclareCAmkESComponent(
+    EthDriverUboot
+    SOURCES
+    components/EthDriverUboot/src/eth_driver_uboot.c
+    INCLUDES
+    include/plat/${KernelPlatform}
+    LIBS
+    ubootdrivers
+)
+
+DeclareCAmkESRootserver(
+    security_demo.camkes
+    CPP_FLAGS
+    -DPICOSERVER_IP_ADDR=\"${PICOSERVER_IP_ADDR}\" # Make IP address available in CAmkES file
+)
