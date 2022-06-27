@@ -14,6 +14,7 @@
 #define ECHO_PORT 1234
 
 extern void *echo_recv_buf;
+extern void *echo_send_buf;
 
 int listener_socket = 0;
 
@@ -43,7 +44,12 @@ void handle_picoserver_notification(void)
         if (events & PICOSERVER_READ) {
             ret = echo_recv_recv(socket, 4096, 0);
             printf("%s: Received message of length %d --> %s\n", get_instance_name(), strlen(echo_recv_buf), echo_recv_buf);
+
+            strncpy(echo_send_buf, echo_recv_buf, ret);
+            ret = echo_send_send(socket, strlen(echo_send_buf), 0);
+
             memset(echo_recv_buf, 0, 4096);
+            memset(echo_send_buf, 0, 4096);
         }
         if (events & PICOSERVER_CLOSE) {
             ret = echo_control_shutdown(socket, PICOSERVER_SHUT_RDWR);
