@@ -1,0 +1,15 @@
+/*
+ * Copyright 2022, Capgemini Engineering
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
+component Echo {
+    control;
+
+    uses PicoControl echo_control;
+    uses PicoRecv echo_recv;
+    uses PicoSend echo_send;
+
+    attribute string ip_addr;
+}

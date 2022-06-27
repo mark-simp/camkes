@@ -1,0 +1,28 @@
+/*
+ * Copyright 2022, Capgemini Engineering
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
+import <Ethdriver.idl4>;
+
+#include <camkes-single-threaded.h>
+#include <eth_platform_devices.h>
+
+ component EthDriverUboot {
+    single_threaded_component()
+
+    provides Ethdriver client;
+
+    attribute int promiscuous_mode;
+
+    HARDWARE_INTERFACES
+
+    composition {
+        HARDWARE_COMPOSITION
+    }
+
+    configuration {
+        HARDWARE_CONFIGURATION
+    }
+}
