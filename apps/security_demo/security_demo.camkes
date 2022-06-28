@@ -12,7 +12,6 @@ import <TimeServer/TimeServer.camkes>;
 import "components/Crypto/crypto.camkes";
 import "components/KeyReader/key_reader.camkes";
 import "components/Transmitter/transmitter.camkes";
-import "components/Echo/echo.camkes";
 import "components/EthDriverUboot/eth_driver_uboot.camkes";
 
 #include <camkes-picotcp-base.h>
@@ -23,7 +22,6 @@ assembly {
         component Crypto crypto;
         component KeyReader key_reader;
         component Transmitter transmitter;
-        component Echo echo;
         component PicoServer picoserver;
         component EthDriverUboot ethdriver;
         component TimeServer time_server;
@@ -36,16 +34,16 @@ assembly {
         connection seL4RPCCall buffer_lock(from transmitter.l, to crypto.l);
         connection seL4Notification buffer_notify(from crypto.e, to transmitter.e);
 
+        /* PicoServer <-> Transmitter connections */
+        connection seL4PicoServerSignal eth_server_control(from transmitter.eth_control, to picoserver.pico_control);
+        connection seL4PicoServer eth_server_recv(from transmitter.eth_recv, to picoserver.pico_recv);
+        connection seL4PicoServer eth_server_send(from transmitter.eth_send, to picoserver.pico_send);
+
         /* PicoServer <-> Timerserver connections */
         picotcp_base_connections(picoserver, pico_base, time_server.the_timer)
 
         /* PicoServer <-> EthDriverUboot connections */
         connection seL4Ethdriver eth_driver_conn(from picoserver.ethdriver, to ethdriver.client);
-
-        /* PicoServer <-> Echo connections */
-        connection seL4PicoServerSignal echo_server_control(from echo.echo_control, to picoserver.pico_control);
-        connection seL4PicoServer echo_server_recv(from echo.echo_recv, to picoserver.pico_recv);
-        connection seL4PicoServer echo_server_send(from echo.echo_send, to picoserver.pico_send);
     }
 
     configuration {
@@ -63,13 +61,13 @@ assembly {
         /* TimeServer configuration */
         time_server.timers_per_client = 8;
 
-        /* Echo configuration */
-        echo.echo_control_attributes = "1";
-        echo.echo_recv_attributes = "1";
-        echo.echo_recv_shmem_size = 0x1000;
-        echo.echo_send_attributes = "1";
-        echo.echo_send_shmem_size = 0x1000;
-        echo.ip_addr = PICOSERVER_IP_ADDR;
+        /* Transmitter configuration */
+        transmitter.eth_control_attributes = "1";
+        transmitter.eth_recv_attributes = "1";
+        transmitter.eth_recv_shmem_size = 0x1000;
+        transmitter.eth_send_attributes = "1";
+        transmitter.eth_send_shmem_size = 0x1000;
+        transmitter.ip_addr = PICOSERVER_IP_ADDR;
 
         /* PicoServer configuration */
         picotcp_base_configuration(picoserver, pico_base, PICOSERVER_IP_ADDR, "0.0.0.0")

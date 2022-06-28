@@ -42,12 +42,6 @@ DeclareCAmkESComponent(
     components/Transmitter/src/transmitter.c
     INCLUDES
     include
-)
-
-DeclareCAmkESComponent(
-    Echo
-    SOURCES
-    components/Echo/src/echo.c
     LIBS
     picotcp
     PicoServer-client

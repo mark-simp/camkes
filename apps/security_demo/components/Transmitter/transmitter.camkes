@@ -19,4 +19,12 @@ component Transmitter {
 
     // Event to notify that data has been written to the dataport_buffer
     consumes dataport_event e;
+
+    // Connections to the PicoServer
+    uses PicoControl eth_control;
+    uses PicoRecv eth_recv;
+    uses PicoSend eth_send;
+
+    // IP address
+    attribute string ip_addr;
 }
