@@ -23,6 +23,11 @@ extern void *eth_send_buf;
 char eth_pending_tx_buf[ETH_TX_BUF_LEN];
 uint eth_pending_length = 0;
 
+/* A buffer of encrypted characters to log to the SD/MMC card */
+#define MMC_TX_BUF_LEN 4096
+char mmc_pending_tx_buf[ETH_TX_BUF_LEN];
+uint mmc_pending_length = 0;
+
 /* File descriptor of socket to transmit to. A value of -1 indicates no socket is connected. */
 int eth_socket = -1;
 
@@ -110,6 +115,12 @@ void receive_data_from_crypto_component(void)
         if (eth_pending_length < ETH_TX_BUF_LEN) {
             eth_pending_tx_buf[eth_pending_length] = encrypted_char;
             eth_pending_length += 1;
+        }
+        /* Store the read character in the buffer of pending data to log to SD/MMC. */
+        /* If the buffer is full then discard the character */
+        if (mmc_pending_length < MMC_TX_BUF_LEN) {
+            mmc_pending_tx_buf[mmc_pending_length] = encrypted_char;
+            mmc_pending_length += 1;
         }
     }
     d_release();
