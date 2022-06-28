@@ -18,7 +18,6 @@ int run_key_reader(ps_io_ops_t *io_ops)
     printf("Starting Key_Reader\n");
 
     /* Start the U-Boot driver library */
-
     const char *const_reg_paths[] = REG_PATHS;
     const char *const_dev_paths[] = DEV_PATHS;
     assert(!initialise_uboot_drivers(

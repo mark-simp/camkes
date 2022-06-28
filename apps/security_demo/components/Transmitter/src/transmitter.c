@@ -15,6 +15,9 @@
 #include <sel4platsupport/io.h>
 #include <platsupport/delay.h>
 
+#include <uboot_drivers.h>
+#include <mmc_platform_devices.h>
+
 #define ETH_PORT 1234
 
 extern void *eth_send_buf;
@@ -150,6 +153,21 @@ int transmitter_run(ps_io_ops_t *io_ops)
 {
     /* Listen for connections on the ethernet socket we wish to transmit to */
     listen_for_socket();
+
+    /* Start the U-Boot driver library */
+    const char *const_reg_paths[] = REG_PATHS;
+    const char *const_dev_paths[] = DEV_PATHS;
+    assert(!initialise_uboot_drivers(
+        /* Provide the platform support IO operations */
+        io_ops,
+        /* List the device tree paths that need to be memory mapped */
+        const_reg_paths, REG_PATH_COUNT,
+        /* List the device tree paths for the devices */
+        const_dev_paths, DEV_PATH_COUNT));
+
+    run_uboot_command("mmc info");
+    run_uboot_command("part list mmc 0");
+    run_uboot_command("fatls mmc 0");
 
     /* Now poll for events and handle them */
     bool idle_cycle;
