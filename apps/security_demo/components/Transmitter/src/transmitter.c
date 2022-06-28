@@ -16,7 +16,6 @@
 
 #define ETH_PORT 1234
 
-extern void *eth_recv_buf;
 extern void *eth_send_buf;
 
 /* A buffer of encrypted characters to transmit over ethernet */
@@ -72,11 +71,6 @@ void handle_picoserver_notification(void)
                 /* Store the file descriptor of connected socket */
                 eth_socket = peer.socket;
             }
-        }
-        if (events & PICOSERVER_READ) {
-            ret = eth_recv_recv(socket, 4096, 0);
-            printf("%s: Received message of length %d --> %s\n", get_instance_name(), strlen(eth_recv_buf), eth_recv_buf);
-            memset(eth_recv_buf, 0, 4096);
         }
         if (events & PICOSERVER_CLOSE) {
             ret = eth_control_shutdown(socket, PICOSERVER_SHUT_RDWR);
@@ -134,6 +128,7 @@ void transmit_pending_eth_buffer(void)
     strncpy(eth_send_buf, eth_pending_tx_buf, eth_pending_length);
     eth_send_send(eth_socket, eth_pending_length, 0);
     /* All pending characters have now been sent. Clear the buffer */
+    memset(eth_send_buf, 0, eth_pending_length);
     memset(eth_pending_tx_buf, 0, eth_pending_length);
     eth_pending_length = 0;
 }
