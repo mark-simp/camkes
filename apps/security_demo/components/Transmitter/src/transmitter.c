@@ -69,7 +69,7 @@ void handle_picoserver_notification(void)
                 }
                 pico_ipv4_to_string(ip_string, peer.peer_addr);
                 printf("%s: Connection established with %s on socket %d\n", get_instance_name(), ip_string, socket);
-                /* Store the FD of connected socket */
+                /* Store the file descriptor of connected socket */
                 eth_socket = peer.socket;
             }
         }
@@ -81,12 +81,12 @@ void handle_picoserver_notification(void)
         if (events & PICOSERVER_CLOSE) {
             ret = eth_control_shutdown(socket, PICOSERVER_SHUT_RDWR);
             printf("%s: Connection closing on socket %d\n", get_instance_name(), socket);
-            /* Socket no longer connected, clear the FD */
+            /* Socket no longer connected, clear the stored file descriptor */
             eth_socket = -1;
         }
         if (events & PICOSERVER_FIN) {
             printf("%s: Connection closed on socket %d\n", get_instance_name(), socket);
-            /* Socket no longer connected, clear the FD */
+            /* Socket no longer connected, clear the stored file descriptor */
             eth_socket = -1;
         }
         if (events & PICOSERVER_ERR) {
@@ -141,7 +141,7 @@ void transmit_pending_eth_buffer(void)
 
 int run(void)
 {
-    /* Listen for connections on the docket we wish to transmit to */
+    /* Listen for connections on the ethernet socket we wish to transmit to */
     listen_for_socket();
 
     /* Now poll for events and handle them */
