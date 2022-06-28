@@ -42,9 +42,11 @@ DeclareCAmkESComponent(
     components/Transmitter/src/transmitter.c
     INCLUDES
     include
+    include/plat/${KernelPlatform}
     LIBS
     picotcp
     PicoServer-client
+    ubootdrivers
 )
 
 DeclareCAmkESComponent(

@@ -6,8 +6,11 @@
 
 import "../../interfaces/Lock_RPC.idl4";
 
+#include <camkes-single-threaded.h>
+#include <mmc_platform_devices.h>
+
 component Transmitter {
-    control;
+    single_threaded_component()
 
     include "dataport_buffer.h";
 
@@ -27,4 +30,15 @@ component Transmitter {
 
     // IP address
     attribute string ip_addr;
+
+    // Hardware configuration for MMC device
+    HARDWARE_INTERFACES
+
+    composition {
+        HARDWARE_COMPOSITION
+    }
+
+    configuration {
+        HARDWARE_CONFIGURATION
+    }
 }

@@ -12,6 +12,7 @@
 #include <picoserver.h>
 #include <assert.h>
 
+#include <sel4platsupport/io.h>
 #include <platsupport/delay.h>
 
 #define ETH_PORT 1234
@@ -145,7 +146,7 @@ void transmit_pending_eth_buffer(void)
 }
 
 
-int run(void)
+int transmitter_run(ps_io_ops_t *io_ops)
 {
     /* Listen for connections on the ethernet socket we wish to transmit to */
     listen_for_socket();
@@ -184,3 +185,5 @@ int run(void)
 
     return 0;
 }
+
+CAMKES_POST_INIT_MODULE_DEFINE(transmitter_run_, transmitter_run);
