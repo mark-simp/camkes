@@ -6,11 +6,10 @@
 
 import "../../interfaces/Lock_RPC.idl4";
 
-#include <camkes-single-threaded.h>
 #include <mmc_platform_devices.h>
 
 component Transmitter {
-    single_threaded_component()
+    control;
 
     include "dataport_buffer.h";
 

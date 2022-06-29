@@ -12,6 +12,7 @@
 #include <picoserver.h>
 #include <assert.h>
 
+#include <camkes/io.h>
 #include <sel4platsupport/io.h>
 #include <platsupport/delay.h>
 
@@ -176,8 +177,14 @@ void write_pending_mmc_log(void)
 }
 
 
-int transmitter_run(ps_io_ops_t *io_ops)
+int run(void)
 {
+    /* Get the IO ops */
+    ps_io_ops_t io_ops;
+    if (camkes_io_ops(&io_ops)) {
+        assert("Failed to initialize io_ops");
+    }
+
     /* Listen for connections on the ethernet socket we wish to transmit to */
     listen_for_socket();
 
@@ -186,7 +193,7 @@ int transmitter_run(ps_io_ops_t *io_ops)
     const char *const_dev_paths[] = DEV_PATHS;
     assert(!initialise_uboot_drivers(
         /* Provide the platform support IO operations */
-        io_ops,
+        &io_ops,
         /* List the device tree paths that need to be memory mapped */
         const_reg_paths, REG_PATH_COUNT,
         /* List the device tree paths for the devices */
@@ -241,5 +248,3 @@ int transmitter_run(ps_io_ops_t *io_ops)
 
     return 0;
 }
-
-CAMKES_POST_INIT_MODULE_DEFINE(transmitter_run_, transmitter_run);
