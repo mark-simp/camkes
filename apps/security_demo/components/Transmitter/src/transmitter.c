@@ -18,7 +18,11 @@
 #include <uboot_drivers.h>
 #include <mmc_platform_devices.h>
 
-#define ETH_PORT 1234
+#define LOG_FILENAME "transmitter_log.txt" // Filename of the log file to use
+#define LOG_FILE_DEVICE "mmc 0:2"          // The U-Boot designation of the disk partition to write to
+#define LOG_FILE_WRITE_PERIOD_US 30000000  // Time between log file writes (30 seconds)
+
+#define ETH_PORT 1234 // Port number of the ethernet socket to transmit to
 
 extern void *eth_send_buf;
 
@@ -149,6 +153,29 @@ void transmit_pending_eth_buffer(void)
 }
 
 
+void write_pending_mmc_log(void)
+{
+    /* Track the total number of bytes written to the log file*/
+    static uint total_bytes_written = 0;
+
+    /* Write all keypresses stored in the 'mmc_pending_tx_buf' buffer to the log file */
+    char uboot_cmd[64];
+    sprintf(uboot_cmd, "fatwrite %s 0x%x %s %x %x",
+        LOG_FILE_DEVICE,        // The U-Boot partition designation
+        &mmc_pending_tx_buf,    // Address of the buffer to write
+        LOG_FILENAME,           // Filename to log to
+        mmc_pending_length,     // The number of bytes to write
+        total_bytes_written);   // The offset in the file to start writing from
+    run_uboot_command(uboot_cmd);
+
+    total_bytes_written += mmc_pending_length;
+
+    /* All pending characters have now been sent. Clear the buffer */
+    memset(mmc_pending_tx_buf, 0, mmc_pending_length);
+    mmc_pending_length = 0;
+}
+
+
 int transmitter_run(ps_io_ops_t *io_ops)
 {
     /* Listen for connections on the ethernet socket we wish to transmit to */
@@ -165,13 +192,15 @@ int transmitter_run(ps_io_ops_t *io_ops)
         /* List the device tree paths for the devices */
         const_dev_paths, DEV_PATH_COUNT));
 
-    run_uboot_command("mmc info");
-    run_uboot_command("part list mmc 0");
-    run_uboot_command("fatls mmc 0");
+    /* Delete any existing log file to ensure we start with an empty file */
+    char uboot_cmd[64];
+    sprintf(uboot_cmd, "fatrm %s %s", LOG_FILE_DEVICE, LOG_FILENAME);
+    run_uboot_command(uboot_cmd);
 
     /* Now poll for events and handle them */
     bool idle_cycle;
     seL4_Word badge;
+    unsigned long last_log_file_write_time = 0;
 
     while(1) {
         idle_cycle = true;
@@ -186,6 +215,15 @@ int transmitter_run(ps_io_ops_t *io_ops)
         if (eth_socket >= 0 && eth_pending_length > 0) {
             idle_cycle = false;
             transmit_pending_eth_buffer();
+        }
+
+        /* Write any received encrypted characters to the log file (if sufficient
+         * time has passed from the previous write) */
+        if (mmc_pending_length > 0 &&
+               (uboot_monotonic_timer_get_us() - last_log_file_write_time) >= LOG_FILE_WRITE_PERIOD_US) {
+            idle_cycle = false;
+            last_log_file_write_time = uboot_monotonic_timer_get_us();
+            write_pending_mmc_log();
         }
 
         /* Process notification of any events from the PicoTCP stack */
