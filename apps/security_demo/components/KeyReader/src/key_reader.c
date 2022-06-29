@@ -10,19 +10,24 @@
 #include <sel4platsupport/io.h>
 #include <platsupport/delay.h>
 
+#include <camkes/io.h>
 #include <uboot_drivers.h>
 #include <usb_platform_devices.h>
 
-int run_key_reader(ps_io_ops_t *io_ops)
+int run(void)
 {
-    printf("Starting Key_Reader\n");
+    /* Get the IO operations (needed by the U-Boot driver library) */
+    ps_io_ops_t io_ops;
+    if (camkes_io_ops(&io_ops)) {
+        assert("Failed to initialize io_ops");
+    }
 
     /* Start the U-Boot driver library */
     const char *const_reg_paths[] = REG_PATHS;
     const char *const_dev_paths[] = DEV_PATHS;
     assert(!initialise_uboot_drivers(
         /* Provide the platform support IO operations */
-        io_ops,
+        &io_ops,
         /* List the device tree paths that need to be memory mapped */
         const_reg_paths, REG_PATH_COUNT,
         /* List the device tree paths for the devices */
@@ -44,5 +49,3 @@ int run_key_reader(ps_io_ops_t *io_ops)
 
     return 0;
 }
-
-CAMKES_POST_INIT_MODULE_DEFINE(run_key_reader_, run_key_reader);

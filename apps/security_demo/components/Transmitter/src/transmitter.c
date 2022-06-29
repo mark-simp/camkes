@@ -179,7 +179,7 @@ void write_pending_mmc_log(void)
 
 int run(void)
 {
-    /* Get the IO ops */
+    /* Get the IO operations (needed by the U-Boot driver library) */
     ps_io_ops_t io_ops;
     if (camkes_io_ops(&io_ops)) {
         assert("Failed to initialize io_ops");
