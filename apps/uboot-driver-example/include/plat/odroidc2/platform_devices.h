@@ -1,3 +1,9 @@
+/*
+ * Copyright 2022 Capgemini Engineering
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
 #pragma once
 
 /* List the set of device tree paths that include the 'reg' entries
