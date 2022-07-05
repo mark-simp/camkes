@@ -34,7 +34,7 @@ typedef struct client {
      */
     rx_frame_t pending_rx[CLIENT_RX_BUFS];
 
-    /* mac address for this client */
+    /* MAC address for this client */
     uint8_t mac[6];
 
     /* Badge for this client */
