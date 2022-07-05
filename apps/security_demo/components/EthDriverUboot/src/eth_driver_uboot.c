@@ -85,7 +85,7 @@ static int is_broadcast(void *buf, unsigned int len)
 
 static int is_multicast(void *buf, unsigned int len)
 {
-    // the dest address is in the IP header (16 bytes in), which is located after the
+    /* the dest address is in the IP header (16 bytes in), which is located after the
     // ethernet header. the dest address itself is a standard 4byte IP address
     const int eth_header_len = 14;
     const int ip_hdr_dest_offset = 16;
