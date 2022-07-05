@@ -24,7 +24,7 @@ typedef struct rx_frame {
 } rx_frame_t;
 
 typedef struct client {
-    /* keeps track of the head of the queue */
+    /* Keeps track of the head of the queue */
     int pending_rx_head;
     /* keeps track of the tail of the queue */
     int pending_rx_tail;
