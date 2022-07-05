@@ -167,13 +167,16 @@ void write_pending_mmc_log(void)
         LOG_FILENAME,           // Filename to log to
         mmc_pending_length,     // The number of bytes to write
         total_bytes_written);   // The offset in the file to start writing from
-    run_uboot_command(uboot_cmd);
+    int ret = run_uboot_command(uboot_cmd);
 
-    total_bytes_written += mmc_pending_length;
+    /* Clear the buffer if writing to the file was successful */
+    if (ret >= 0) {
+        total_bytes_written += mmc_pending_length;
 
-    /* All pending characters have now been sent. Clear the buffer */
-    memset(mmc_pending_tx_buf, 0, mmc_pending_length);
-    mmc_pending_length = 0;
+        /* All pending characters have now been sent. Clear the buffer */
+        memset(mmc_pending_tx_buf, 0, mmc_pending_length);
+        mmc_pending_length = 0;
+    }
 }
 
 
