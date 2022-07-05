@@ -92,7 +92,7 @@ static int is_multicast(void *buf, unsigned int len)
     if (len < eth_header_len + ip_hdr_dest_offset + 4) {
         return 0;
     }
-    // read out a copy of the IP address so that it is correctly aligned
+    // Read out a copy of the IP address so that it is correctly aligned
     uint32_t addr;
     // TODO Find out why ARM memcpy faults on unaligned addresses
     //memcpy(&addr, ((uintptr_t)buf) + eth_header_len + ip_hdr_dest_offset, 4);
