@@ -40,7 +40,7 @@ typedef struct client {
     /* Badge for this client */
     seL4_Word client_id;
 
-    /* dataport for this client */
+    /* Dataport for this client */
     unsigned char *dataport;
 } client_t;
 
