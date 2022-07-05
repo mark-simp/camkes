@@ -108,17 +108,18 @@ void handle_picoserver_notification(void)
 
 void receive_data_from_crypto_component(void)
 {
-    /* Retrieve data from the circular buffer held in the dataport 'd'. As the dataport
+    /* Retrieve data from the circular buffer held in the dataport. As the dataport
      * is shared with another component we ensure only one component accesses it
-     * at a time through use of a mutex accessed via the 'l_xxx' RPC calls. */
+     * at a time through use of a mutex accessed via the 'circular_buffer_lock_xxx'
+     * RPC calls. */
 
-    l_lock(); // Start of critical section
+    circular_buffer_lock_lock(); // Start of critical section
 
-    d_acquire();
-    while(d->head != d->tail) {
+    circular_buffer_data_acquire();
+    while(circular_buffer_data->head != circular_buffer_data->tail) {
         /* Buffer is not empty, read the next character from it */
-        char encrypted_char = d->data[d->tail];
-        d->tail += 1;
+        char encrypted_char = circular_buffer_data->data[circular_buffer_data->tail];
+        circular_buffer_data->tail += 1;
         /* Store the read character in the buffer of pending data to send over ethernet. */
         /* If the buffer is full then discard the character */
         if (eth_pending_length < ETH_TX_BUF_LEN) {
@@ -132,9 +133,9 @@ void receive_data_from_crypto_component(void)
             mmc_pending_length += 1;
         }
     }
-    d_release();
+    circular_buffer_data_release();
 
-    l_unlock(); // End of critical section
+    circular_buffer_lock_unlock(); // End of critical section
 }
 
 
@@ -216,7 +217,7 @@ int run(void)
         idle_cycle = true;
 
         /* Process notification of receipt of encrypted characters */
-        if (e_poll()) {
+        if (circular_buffer_notify_poll()) {
             idle_cycle = false;
             receive_data_from_crypto_component();
         }

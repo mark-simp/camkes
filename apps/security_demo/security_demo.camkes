@@ -27,12 +27,12 @@ assembly {
         component TimeServer time_server;
 
         /* KeyReader <-> Crypto connections */
-        connection seL4RPCCall keypress(from key_reader.a, to crypto.b);
+        connection seL4RPCCall keypress(from key_reader.clear_text, to crypto.clear_text);
 
         /* Crypto <-> Transmitter connections */
-        connection seL4SharedData buffer(from crypto.d, to transmitter.d);
-        connection seL4RPCCall buffer_lock(from transmitter.l, to crypto.l);
-        connection seL4Notification buffer_notify(from crypto.e, to transmitter.e);
+        connection seL4SharedData buffer_data(from crypto.circular_buffer_data, to transmitter.circular_buffer_data);
+        connection seL4RPCCall buffer_lock(from transmitter.circular_buffer_lock, to crypto.circular_buffer_lock);
+        connection seL4Notification buffer_notify(from crypto.circular_buffer_notify, to transmitter.circular_buffer_notify);
 
         /* PicoServer <-> Transmitter connections */
         connection seL4PicoServerSignal eth_server_control(from transmitter.eth_control, to picoserver.pico_control);

@@ -14,13 +14,13 @@ component Transmitter {
     include "dataport_buffer.h";
 
     // Dataport for receiving encrypted characters form the Crypto component
-    dataport dataport_buffer_t d;
+    dataport dataport_buffer_t circular_buffer_data;
 
     // Lock to serialise access to the dataport_buffer
-    uses Lock_RPC l;
+    uses Lock_RPC circular_buffer_lock;
 
     // Event to notify that data has been written to the dataport_buffer
-    consumes dataport_event e;
+    consumes dataport_event circular_buffer_notify;
 
     // Connections to the PicoServer
     uses PicoControl eth_control;

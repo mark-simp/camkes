@@ -11,7 +11,7 @@ import "../../interfaces/Character_RPC.idl4";
 component KeyReader {
     control;
 
-    uses Character_RPC a;
+    uses Character_RPC clear_text;
 
     HARDWARE_INTERFACES
 

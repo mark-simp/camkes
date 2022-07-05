@@ -29,21 +29,21 @@ char rot_13(char src)
     return result;
 }
 
-void l_lock(void)
+void circular_buffer_lock_lock(void)
 {
-    int error = m_lock();
+    int error = circular_buffer_mutex_lock();
     if (error != 0)
         printf("Crypto: Error when locking mutex\n");
 }
 
-void l_unlock(void)
+void circular_buffer_lock_unlock(void)
 {
-    int error = m_unlock();
+    int error = circular_buffer_mutex_unlock();
     if (error != 0)
         printf("Crypto: Error when unlocking mutex\n");
 }
 
-void b_handle_character(char c)
+void clear_text_handle_character(char c)
 {
     char encrypted_char = rot_13(c);
 
@@ -51,20 +51,20 @@ void b_handle_character(char c)
      * shared with another component we ensure that only one component accesses it
      * at the time through use of a mutex */
 
-    l_lock(); // Start of critical section
+    circular_buffer_lock_lock(); // Start of critical section
 
-    d_acquire();
-    if ((char)(d->head + 1) == d->tail) {
+    circular_buffer_data_acquire();
+    if ((char)(circular_buffer_data->head + 1) == circular_buffer_data->tail) {
         /* Buffer is full, discard the character */
         printf("Crypto: Dataport buffer is full, discarding character\n");
     } else {
-        d->data[d->head] = encrypted_char;
-        d->head += 1;
+        circular_buffer_data->data[circular_buffer_data->head] = encrypted_char;
+        circular_buffer_data->head += 1;
     }
-    d_release();
+    circular_buffer_data_release();
 
-    l_unlock(); // End of critical section
+    circular_buffer_lock_unlock(); // End of critical section
 
     /* Emit a notification that data has been written to the buffer */
-    e_emit();
+    circular_buffer_notify_emit();
 }

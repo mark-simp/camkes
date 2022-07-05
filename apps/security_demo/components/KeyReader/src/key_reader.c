@@ -49,7 +49,7 @@ int run(void)
     while (true)
     {
         if (uboot_stdin_tstc() > 0)
-            a_handle_character(uboot_stdin_getc());
+            clear_text_handle_character(uboot_stdin_getc());
         ps_mdelay(10);
     }
 
