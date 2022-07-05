@@ -26,7 +26,7 @@ typedef struct rx_frame {
 typedef struct client {
     /* Keeps track of the head of the queue */
     int pending_rx_head;
-    /* keeps track of the tail of the queue */
+    /* Keeps track of the tail of the queue */
     int pending_rx_tail;
     /*
      * This is a cyclic queue of RX buffers pending to be read by a client,
