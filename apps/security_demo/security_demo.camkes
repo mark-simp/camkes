@@ -54,8 +54,8 @@ assembly {
         ethdriver.simple = true;
         ethdriver.cnode_size_bits = 12;
         ethdriver.simple_untyped20_pool = 2;
-        ethdriver.heap_size = 0x200000;
-        ethdriver.dma_pool = 0x40000;
+        ethdriver.heap_size = 2048 * 1024;
+        ethdriver.dma_pool = 256 * 1024;
         ethdriver.promiscuous_mode = 0;
 
         /* TimeServer configuration */
@@ -64,15 +64,15 @@ assembly {
         /* Transmitter configuration */
         transmitter.eth_control_attributes = "1";
         transmitter.eth_recv_attributes = "1";
-        transmitter.eth_recv_shmem_size = 0x1000;
+        transmitter.eth_recv_shmem_size = 4 * 1024;
         transmitter.eth_send_attributes = "1";
-        transmitter.eth_send_shmem_size = 0x1000;
+        transmitter.eth_send_shmem_size = 4 * 1024;
         transmitter.ip_addr = PICOSERVER_IP_ADDR;
         transmitter.dma_pool = 16 * 1024; /* DMA for MMC driver */
 
         /* PicoServer configuration */
         picotcp_base_configuration(picoserver, pico_base, PICOSERVER_IP_ADDR, "0.0.0.0")
-        picoserver.ethdriver_shmem_size = 0x1000;
-        picoserver.heap_size = 0x40000;
+        picoserver.ethdriver_shmem_size = 4 * 1024;
+        picoserver.heap_size = 256 * 1024;
     }
 }
