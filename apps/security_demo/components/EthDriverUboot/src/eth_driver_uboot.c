@@ -85,14 +85,14 @@ static int is_broadcast(void *buf, unsigned int len)
 
 static int is_multicast(void *buf, unsigned int len)
 {
-    /* the dest address is in the IP header (16 bytes in), which is located after the
-            ethernet header. the dest address itself is a standard 4byte IP address */
+    /* The dest address is in the IP header (16 bytes in), which is located after the
+     * ethernet header. the dest address itself is a standard 4byte IP address */
     const int eth_header_len = 14;
     const int ip_hdr_dest_offset = 16;
     if (len < eth_header_len + ip_hdr_dest_offset + 4) {
         return 0;
     }
-    // Read out a copy of the IP address so that it is correctly aligned
+    /* Read out a copy of the IP address so that it is correctly aligned */
     uint32_t addr;
     // TODO Find out why ARM memcpy faults on unaligned addresses
     //memcpy(&addr, ((uintptr_t)buf) + eth_header_len + ip_hdr_dest_offset, 4);
@@ -107,7 +107,7 @@ static int is_multicast(void *buf, unsigned int len)
     return 0;
 }
 
-/** If eth frames have been received by the driver, copy the frames into the
+/* If eth frames have been received by the driver, copy the frames into the
  * associated client(s) buffer (pending_rx). Then copy a single frame (if any
  * are available) into the dataport of the caller of this function.
  *
@@ -224,7 +224,7 @@ int client_tx(int len)
     }
     assert(client);
 
-    /* transmit */
+    /* Transmit */
     if (0 != uboot_eth_send(client->dataport, len)) {
         return ETHIF_TX_FAILED;
     } else {
