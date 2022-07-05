@@ -34,10 +34,16 @@ int run(void)
         const_dev_paths, DEV_PATH_COUNT));
 
     /* Set USB keyboard as input device */
-    run_uboot_command("setenv stdin usbkbd");
+    int ret = run_uboot_command("setenv stdin usbkbd");
+    if (ret < 0) {
+        assert("Failed to USB keyboard as the input device");
+    }
 
     /* Start the USB subsystem */
-    run_uboot_command("usb start");
+    ret = run_uboot_command("usb start");
+    if (ret < 0) {
+        assert("Failed to start USB driver");
+    }
 
     /* Loop forever reading keypresses and passing to the 'handle_character' RPC */
     while (true)
