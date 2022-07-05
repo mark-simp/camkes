@@ -29,7 +29,7 @@ typedef struct client {
     /* keeps track of the tail of the queue */
     int pending_rx_tail;
     /*
-     * this is a cyclic queue of RX buffers pending to be read by a client,
+     * This is a cyclic queue of RX buffers pending to be read by a client,
      * the head represents the first buffer in the queue, and the tail the last
      */
     rx_frame_t pending_rx[CLIENT_RX_BUFS];
