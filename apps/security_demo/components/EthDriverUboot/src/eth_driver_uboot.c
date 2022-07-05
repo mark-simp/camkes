@@ -275,7 +275,7 @@ int server_init(ps_io_ops_t *io_ops)
         ZF_LOGF("Unable to initialise ethernet");
     }
 
-    /* preallocate buffers */
+    /* Preallocate buffers */
     num_clients = client_num_badges();
     clients = calloc(num_clients, sizeof(client_t));
     for (int client = 0; client < num_clients; client++) {
