@@ -99,7 +99,7 @@ static int is_multicast(void *buf, unsigned int len)
     for (int i = 0; i < 4; i++) {
         ((char *)&addr)[i] = ((char *)(buf + eth_header_len + ip_hdr_dest_offset))[i];
     }
-    // multicast addresses start with bit pattern 1110, which after accounting for
+    /* Multicast addresses start with bit pattern 1110, which after accounting for
     // network byte ordering is 0xe0
     if ((addr & 0xf0) == 0xe0) {
         return 1;
