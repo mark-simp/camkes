@@ -26,7 +26,7 @@
     REG_OCOTP_PATH,                                                             \
     REG_SYSCON_PATH,                                                            \
     REG_IOMUXC_PATH,                                                            \
-    REG_GPIO_PATH,                                                               \
+    REG_GPIO_PATH,                                                              \
     };
 
 /* List the set of device tree paths for the devices we wish to access.
