@@ -15,7 +15,7 @@
 #define REG_OCOTP_PATH      "/soc@0/bus@30000000/ocotp-ctrl@30350000"
 #define REG_SYSCON_PATH     "/soc@0/bus@30000000/syscon@30360000"
 #define REG_ETH_PATH        "/soc@0/bus@30800000/ethernet@30be0000"
-#define REGGPIO_PATH        "/soc@0/bus@30000000/gpio@30200000"
+#define REG_GPIO_PATH        "/soc@0/bus@30000000/gpio@30200000"
 
 #define REG_PATH_COUNT 7
 
