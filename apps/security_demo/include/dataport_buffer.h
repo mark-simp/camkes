@@ -25,9 +25,9 @@
  *          index 0      'tail'         'head'      index 255
  *
  * It should be noted that a buffer size of 256, and the types of the 'head' and 'tail'
- * pointers, have been deliberately chosen to allow the 'head' and 'tail' pointers to be
+ * indexes, have been deliberately chosen to allow the 'head' and 'tail' indexes to be
  * incremented by users of this buffer through use of a simple "head += 1"; we rely upon
- * type wrap-around of the pointers.
+ * type wrap-around of the indexes.
  *
  */
 
