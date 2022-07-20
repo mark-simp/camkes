@@ -14,7 +14,7 @@ char rot_13(char src)
 
     // Only handle alphabet characters
     if((src >= 97 && src <= 122) || (src >= 65 && src <= 90)) {
-        if(src > 109 || (src > 77 && src < 91)) {
+        if(src >= 110 || (src >= 78 && src <= 90)) {
             // Characters that wrap around to the start of the alphabet
             result = src - 13;
         } else {
