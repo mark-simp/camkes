@@ -16,8 +16,8 @@
  *
  * When 'head' == 'tail' the buffer is empty (the initial state).
  *
- * When 'head' + 1 == 'tail' the buffer is full and no more data can be added to
- * the buffer (any further data will be discarded).
+ * When ('head' + 1) mod 256 == 'tail' the buffer is full and no more data can be added
+ * to the buffer (any further data will be discarded).
  *
  * 'data':  .............***************.............
  *          ^            ^              ^           ^
