@@ -26,7 +26,7 @@
  *
  * It should be noted that a buffer size of 256, and the types of the 'head' and 'tail'
  * indexes, have been deliberately chosen to allow the 'head' and 'tail' indexes to be
- * incremented by users of this buffer through use of a simple "head += 1"; we rely upon
+ * incremented by users of this buffer through use of a simple "head++"; we rely upon
  * type wrap-around of the indexes.
  *
  */
