@@ -7,6 +7,8 @@
 #ifndef _DATAPORT_BUFFER_H_
 #define _DATAPORT_BUFFER_H_
 
+#include <stdint.h>
+
 /* The following structure defines a circular buffer of 256 characters held within a
  * dataport shared between two components.
  *
@@ -33,8 +35,8 @@
 
 typedef struct {
     char data[256];
-    char head;
-    char tail;
+    uint8_t head;
+    uint8_t tail;
 } dataport_buffer_t;
 
 #endif
