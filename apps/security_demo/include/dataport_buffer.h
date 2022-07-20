@@ -11,8 +11,8 @@
  * dataport shared between two components.
  *
  * 'data' is an array of characters.
- * 'tail' points to the oldest character in the buffer.
- * 'head' points to the next unused character in the buffer.
+ * 'tail' index of the data array denoting the oldest character in the buffer.
+ * 'head' index of the data array denoting the next unused character in the buffer.
  *
  * When 'head' == 'tail' the buffer is empty (the initial state).
  *
