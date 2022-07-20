@@ -47,10 +47,37 @@ assembly {
     }
 
     configuration {
-        /* KeyReader configuration */
-        key_reader.dma_pool = 16 * 1024; /* DMA for USB driver */
+        /* This section provides settings, assignment of attributes, for each component.
+         * See CAmkES manual (https://docs.sel4.systems/projects/camkes/manual.html) for
+         * details.
+         *
+         * Attributes generic to all components, e.g. dma_pool, and documented in the
+         * CAmkES manual.
+         *
+         * Component specific attributes are declared in the component's CAmkES type
+         * defintion. For example, the defintion of the TimeServer global component (see
+         * https://github.com/seL4/global-components/blob/master/components/TimeServer)
+         * provides documentation of the timers_per_client attribute.
+         */
 
-        /* EthDriverUboot configuration */
+        /* KeyReader configuration
+         *
+         * The size of the DMA pool has been determined experimentally, i.e. through
+         * increasing the pool size until the USB driver can successfully allocate
+         * its required DMA buffers.
+         */
+        key_reader.dma_pool = 32 * 1024; /* DMA for USB driver */
+
+        /* EthDriverUboot configuration
+         *
+         * The required settings for the component have been copied from users of the
+         * EthDrvier global component, for example see settings from the PicoServer app
+         * (https://github.com/seL4/camkes/blob/master/apps/picoserver/picoserver.camkes).
+         *
+         * The size of the DMA pool has been determined experimentally, i.e. through
+         * increasing the pool size until the Ethernet driver can successfully allocate
+         * its required DMA buffers.
+         */
         ethdriver.simple = true;
         ethdriver.cnode_size_bits = 12;
         ethdriver.simple_untyped20_pool = 2;
@@ -58,10 +85,25 @@ assembly {
         ethdriver.dma_pool = 256 * 1024;
         ethdriver.promiscuous_mode = 0;
 
-        /* TimeServer configuration */
+        /* TimeServer configuration
+         *
+         * The required settings for the component have been copied from users of the
+         * TimeServer global component, for example see settings from the PicoServer app
+         * (https://github.com/seL4/camkes/blob/master/apps/picoserver/picoserver.camkes).
+         */
         time_server.timers_per_client = 8;
 
-        /* Transmitter configuration */
+        /* Transmitter configuration
+         *
+         * The required Ethernet settings for the component have been copied from users
+         * of the PicoServer global component, for example see settings the Listener
+         * component of the PicoServer app
+         * (https://github.com/seL4/camkes/blob/master/apps/picoserver/picoserver.camkes).
+         *
+         * The size of the DMA pool has been determined experimentally, i.e. through
+         * increasing the pool size until the Ethernet driver can successfully allocate
+         * its required DMA buffers.
+         */
         transmitter.eth_control_attributes = "1";
         transmitter.eth_recv_attributes = "1";
         transmitter.eth_recv_shmem_size = 4 * 1024;
@@ -70,7 +112,12 @@ assembly {
         transmitter.ip_addr = PICOSERVER_IP_ADDR;
         transmitter.dma_pool = 16 * 1024; /* DMA for MMC driver */
 
-        /* PicoServer configuration */
+        /* PicoServer configuration
+         *
+         * The required settings for the component have been copied from users of the
+         * PicoServer global component, for example see settings from the PicoServer app
+         * (https://github.com/seL4/camkes/blob/master/apps/picoserver/picoserver.camkes).
+         */
         picotcp_base_configuration(picoserver, pico_base, PICOSERVER_IP_ADDR, "0.0.0.0")
         picoserver.ethdriver_shmem_size = 4 * 1024;
         picoserver.heap_size = 256 * 1024;
