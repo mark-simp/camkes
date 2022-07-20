@@ -54,7 +54,7 @@ void clear_text_handle_character(char c)
     circular_buffer_lock_lock(); // Start of critical section
 
     circular_buffer_data_acquire();
-    if ((char)(circular_buffer_data->head + 1) == circular_buffer_data->tail) {
+    if ((uint8_t)(circular_buffer_data->head + 1) == circular_buffer_data->tail) {
         /* Buffer is full, discard the character */
         printf("Crypto: Dataport buffer is full, discarding character\n");
     } else {
