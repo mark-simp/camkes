@@ -191,7 +191,7 @@ int run(void)
     /* Get the IO operations (needed by the U-Boot driver library) */
     ps_io_ops_t io_ops;
     if (camkes_io_ops(&io_ops)) {
-        assert("Failed to initialize io_ops");
+        assert(!"Failed to initialize io_ops");
     }
 
     /* Listen for connections on the ethernet socket we wish to transmit to */
