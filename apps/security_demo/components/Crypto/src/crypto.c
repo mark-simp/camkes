@@ -51,6 +51,11 @@ void clear_text_handle_character(char c)
      * shared with another component we ensure that only one component accesses it
      * at the time through use of a mutex */
 
+    /* The *_acquire() and *_release() functions are used to maintain coherency of
+     * shared memory between components. See the CAmkES manual for details
+     * (https://docs.sel4.systems/projects/camkes/manual.html).
+     */
+
     circular_buffer_lock_lock(); // Start of critical section
 
     circular_buffer_data_acquire();

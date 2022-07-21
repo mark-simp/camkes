@@ -113,6 +113,11 @@ void receive_data_from_crypto_component(void)
      * at a time through use of a mutex accessed via the 'circular_buffer_lock_xxx'
      * RPC calls. */
 
+    /* The *_acquire() and *_release() functions are used to maintain coherency of
+     * shared memory between components. See the CAmkES manual for details
+     * (https://docs.sel4.systems/projects/camkes/manual.html).
+     */
+
     circular_buffer_lock_lock(); // Start of critical section
 
     circular_buffer_data_acquire();
