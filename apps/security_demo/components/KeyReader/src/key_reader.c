@@ -48,8 +48,11 @@ int run(void)
     /* Loop forever reading keypresses and passing to the 'handle_character' RPC */
     while (true)
     {
-        if (uboot_stdin_tstc() > 0)
+        if (uboot_stdin_tstc() > 0) {
             clear_text_handle_character(uboot_stdin_getc());
+            /* Print a full stop to provide indication that a key was read */
+            printf(".\n");
+        }
         ps_mdelay(10);
     }
 
