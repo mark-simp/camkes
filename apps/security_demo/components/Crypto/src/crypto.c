@@ -14,6 +14,8 @@
  *  - circular_buffer_lock_lock and circular_buffer_lock_unlock called by the
  *    Transmitter component.
  *  - clear_text_handle_character called by the KeyReader component.
+ * Instead, all functionality within the Crypto component is triggered through remote
+ * procedure calls.
  *
  * See documentation on the 'control' keyword within the CAmkES manual for details
  * (https://docs.sel4.systems/projects/camkes/manual.html).
