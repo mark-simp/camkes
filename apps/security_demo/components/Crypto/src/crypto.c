@@ -7,6 +7,15 @@
 #include <camkes.h>
 #include <string.h>
 
+/* It should be noted that the Crypto component is not an active component. This means
+ * it does not have a main function and does not have an active thread of control.
+ * Instead, all functionality within the Crypto component is triggered through remote
+ * procedure calls.
+ *
+ * See documentation on the 'control' keyword within the CAmkES manual for details
+ * (https://docs.sel4.systems/projects/camkes/manual.html).
+ */
+
 /* Encryption routine. For the purposes of the demo we use "rot 13" */
 char rot_13(char src)
 {
