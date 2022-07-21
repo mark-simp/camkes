@@ -34,8 +34,15 @@
 #define DEV_SYSCON_PATH     REG_SYSCON_PATH
 #define DEV_MMC_PATH        REG_MMC_PATH
 #define DEV_IOMUXC_PATH     REG_IOMUXC_PATH
+#define DEV_CLK_1_PATH      "/clock-ckil"
+#define DEV_CLK_2_PATH      "/clock-osc-25m"
+#define DEV_CLK_3_PATH      "/clock-osc-27m"
+#define DEV_CLK_4_PATH      "/clock-ext1"
+#define DEV_CLK_5_PATH      "/clock-ext2"
+#define DEV_CLK_6_PATH      "/clock-ext3"
+#define DEV_CLK_7_PATH      "/clock-ext4"
 
-#define DEV_PATH_COUNT 5
+#define DEV_PATH_COUNT 12
 
 #define DEV_PATHS {                                                             \
     DEV_MMC_PATH,                                                               \
@@ -43,6 +50,13 @@
     DEV_CCM_PATH,                                                               \
     DEV_SYSCON_PATH,                                                            \
     DEV_IOMUXC_PATH,                                                            \
+    DEV_CLK_1_PATH,                                                             \
+    DEV_CLK_2_PATH,                                                             \
+    DEV_CLK_3_PATH,                                                             \
+    DEV_CLK_4_PATH,                                                             \
+    DEV_CLK_5_PATH,                                                             \
+    DEV_CLK_6_PATH,                                                             \
+    DEV_CLK_7_PATH                                                              \
 };
 
 /* Provide the hardware settings for CAmkES. Note that we only need to inform
