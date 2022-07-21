@@ -308,4 +308,11 @@ int server_init(ps_io_ops_t *io_ops)
     return 0;
 }
 
+/* The following macro provides the component's main function (named 'run') which
+ * performs required initialisation of CAmkES components declared with
+ * 'single_threaded_component()'.
+ *
+ * Once 'single threaded component' initialisation is complete the main function
+ * calls 'server_init'.
+ */
 CAMKES_POST_INIT_MODULE_DEFINE(ethdriver_run, server_init);
