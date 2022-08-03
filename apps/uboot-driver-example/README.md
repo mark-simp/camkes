@@ -27,3 +27,9 @@ PINMUX and GPIO are tested next, with their associated status commands run which
 Finally, the USB keyboard driver is tested. First, "Echoing input from the USB keyboard:" is printed to the screen, the application then loops 1000 times, wating 10ms every loop, attempting to read a character from a key press and print it to the screen. The characters read will be displated alongside the text "Received character: "
 
 Finally, the application executes the `usb stop` command to shutdown the USB controllers, and calls the `shutdown_uboot_drivers` from the libubootdrivers API to shutdown all drivers. The test program is now complete.
+
+## Odroid C2 Tests
+The application will display a list of the on-board LEDs using the `led list` U-Boot command. It will then rapidly turn on and off both the Odroid C2's LED.
+
+## Application configuration
+Details for additional configuration of tests can be found within the comments of the components/testsrc/test.c file.
