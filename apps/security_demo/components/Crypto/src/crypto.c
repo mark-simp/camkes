@@ -21,14 +21,20 @@
  * (https://docs.sel4.systems/projects/camkes/manual.html).
  */
 
+/* ASCII codes for characters referenced in the rot_13 routine */
+#define UC_A 65
+#define UC_Z 90
+#define LC_a 97
+#define LC_z 122
+
 /* Encryption routine. For the purposes of the demo we use "rot 13" */
 char rot_13(char src)
 {
     char result;
 
     // Only handle alphabet characters
-    if((src >= 97 && src <= 122) || (src >= 65 && src <= 90)) {
-        if(src >= 110 || (src >= 78 && src <= 90)) {
+    if((src >= LC_a && src <= LC_z) || (src >= UC_A && src <= UC_Z)) {
+        if(src >= LC_a + 13 || (src >= UC_A + 13 && src <= UC_Z)) {
             // Characters that wrap around to the start of the alphabet
             result = src - 13;
         } else {
