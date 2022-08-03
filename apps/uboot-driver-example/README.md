@@ -31,5 +31,5 @@ Finally, the application executes the `usb stop` command to shutdown the USB con
 ## Odroid C2 Tests
 The application will display a list of the on-board LEDs using the `led list` U-Boot command. It will then rapidly turn on and off both the Odroid C2's LED.
 
-## Application configuration
+## Application configuration
 Details for additional configuration of tests can be found within the comments of the components/testsrc/test.c file.
