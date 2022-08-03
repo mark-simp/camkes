@@ -188,14 +188,26 @@ void write_pending_mmc_log(void)
 
 int run(void)
 {
-    /* Get the IO operations (needed by the U-Boot driver library) */
+    /* Perform initialisation prior to the main loop (in the following order):
+     *
+     * 1. Instruct the PicoTCP library to listen on the required socket for
+     *    connections.
+     * 2. Get the CAmkES IO operations; these need to be provided to the U-Boot
+     *    driver library in the following step.
+     * 3. Initialise the U-Boot driver library which provides driver support
+     *    for accessing the MMC/SD card and filesystem support.
+     * 4. Use the U-Boot driver library (initialised in the previous step) to
+     *    delete any previous log file from the MMC/SD card using the U-Boot
+     */
+
+    /* Listen for connections on the ethernet socket we wish to transmit to */
+    listen_for_socket();
+
+    /* Get the CAmkES IO operations (needed by the U-Boot driver library) */
     ps_io_ops_t io_ops;
     if (camkes_io_ops(&io_ops)) {
         assert(!"Failed to initialize io_ops");
     }
-
-    /* Listen for connections on the ethernet socket we wish to transmit to */
-    listen_for_socket();
 
     /* Start the U-Boot driver library */
     const char *const_reg_paths[] = REG_PATHS;
