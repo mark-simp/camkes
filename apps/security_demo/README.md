@@ -34,3 +34,7 @@ Three hardware devices are involved in the operation of the application:
 - The EthDriverUboot component requires access to the Ethernet device to allow for ciphertext message to be output to the network.
 
 Device drivers for the required hardware access are supplied by the U-Boot Driver Library.
+
+## Building and Running
+
+Details of how to build and run this application are covered by the relevant section of [this seL4 Developer Kit](https://github.com/sel4devkit/seL4-DevKit-Doc/blob/main/seL4-doc/src/case_study_build.md).
