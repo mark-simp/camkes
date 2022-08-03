@@ -173,16 +173,17 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
     char uboot_cmd[64];
 
     // Test string to write to the file
-    char test_string[32] = "Hello file!";
+    const char test_string[] = "Hello file!";
 
     // Test string to read the file into
-    char read_string[32];
+    #define MAX_BYTES_TO_READ 32
+    char read_string[MAX_BYTES_TO_READ];
 
     // Build command to write the test string to a file and execute command
     sprintf(uboot_cmd, "fatwrite %s 0x%x %s %x %x",
         TEST_FILESYSTEM_PARTITION,   // The U-Boot partition designation
         &test_string,                // Address of the data to write
-        TEST_FILESYSTEM_FILENAME,    // Filename to write to
+        TEST_FILESYSTEM_FILENAME,    // Filename to write to (or create)
         strlen(test_string),         // The number of bytes to write
         0);                          // The offset in the file to start writing from
     run_uboot_command(uboot_cmd);
@@ -191,8 +192,8 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
     sprintf(uboot_cmd, "fatload %s 0x%x %s %x %x",
         TEST_FILESYSTEM_PARTITION,   // The U-Boot partition designation
         &read_string,                // Address to read the data into
-        TEST_FILESYSTEM_FILENAME,    // Filename to write to
-        0,                           // The number of bytes to read (0 = to end of file)
+        TEST_FILESYSTEM_FILENAME,    // Filename to read from
+        MAX_BYTES_TO_READ,           // Max number of bytes to read (0 = to end of file)
         0);                          // The offset in the file to start read from
     run_uboot_command(uboot_cmd);
     printf("String read from file %s: %s\n", TEST_FILESYSTEM_FILENAME, read_string);
