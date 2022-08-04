@@ -1,6 +1,6 @@
 <!--
      Copyright 2017, Data61, CSIRO (ABN 41 687 119 230)
-     Copyright 2022 Capgemini Engineering
+     Copyright 2022, Capgemini Engineering
 
      SPDX-License-Identifier: CC-BY-SA-4.0
 -->
