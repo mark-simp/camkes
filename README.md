@@ -46,11 +46,11 @@ The applications in this repository are:
 
 `mutex`: demonstrates the use of user-defined connectors in CAmkES
 
-`picoserver-uboot`: demostrates the use of the libubootdrivers driver framework for use with picoserver, uisng a instance of the library in place of the Ethdriver component
+`picoserver-uboot`: demonstrates the use of the libubootdrivers driver framework for use with picoserver, using an instance of the library in place of the Ethdriver component
 
 `rotate`: demonstrates the use of user-defined types as the arguments of an interface
 
-`secuirty-demo`: demonstrates the use of multiple libubootdrivers drivers (ethernet, filesystem, USB) across multiple CAmkES components, transfering data (keystrokes read by the USB keyboard driver) between a high side and a low side via a ROT-13 cypher, and then transmiting the charaters across the network via ethernet and logging them to the filesystem
+`security-demo`: demonstrates the use of multiple drivers within the libubootdrivers library (Ethernet, filesystem, USB) across multiple CAmkES components, transferring data (e.g. keystrokes read by the USB keyboard driver) between a high side and a low side via a ROT13 cipher, transmitting the encrypted characters across a network via Ethernet, and logging them to a filesystem on an SD card
 
 `swapcounter`:
 
@@ -62,4 +62,4 @@ The applications in this repository are:
 
 `uart`: demonstrates how to access hardware device memory
 
-`uboot-driver-example`: tests a range of drivers from libubootdrivers inlcuding clocks, SPI, LEDs, I2C, Ethernet, MMC, USB, PINMUX, GPIO and Filesystem.
+`uboot-driver-example`: tests a range of drivers from the libubootdrivers driver library including clocks, SPI, LEDs, I2C, Ethernet, SD/MMC, USB, IOMUX, GPIO, and Filesystem.
