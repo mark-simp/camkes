@@ -6,6 +6,8 @@
 
 # PicoServer U-Boot
 
-The PicoServer U-Boot application works much the same as the standard PicoServer application, with the key difference being that instead of utilising seL4's standard Ethdriver component, the Ethdriver component has been modifed to utilise a Ethernet driver provided by the libubootdrivers U-Boot driver framework. No modification has been made to the Echo component, but the Listener component has been removed as it was not required for the purposes of this application. The Ethdriver component has been modified to act as a wrapper around libubootdrivers ethernet driver interface and the source is inlcuded within this application as opposed to being imported like in the standard PicoServer application.
+The PicoServer U-Boot application runs on the Avnet MaaXBoard. It is similar to the standard PicoServer application, with the key difference being that the Ethdriver component has been modifed to use an Ethernet driver provided by the libubootdrivers U-Boot driver framework. No modification has been made to the Echo component, but the Listener component has been removed as it was not required for this application.
 
-Configuration is the same as the standard application, the details of which can be found [here](https://github.com/sel4devkit/camkes/blob/master/apps/picoserver/README.md).
+Configuration is the same as for the standard application, the details of which can be found [here](https://github.com/sel4devkit/camkes/blob/master/apps/picoserver/README.md).
+
+Details of how to build and run this application are covered by the relevant section of [this seL4 Developer Kit](https://github.com/sel4devkit/seL4-DevKit-Doc/blob/main/seL4-doc/src/uboot_driver_usage.md)

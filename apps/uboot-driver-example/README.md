@@ -31,3 +31,6 @@ The application's test suite for the Odroid-C2 platform is currently much reduce
 
 ## Application configuration
 Details for additional configuration of tests can be found within the comments of `components/Test/src/test.c`.
+
+## Building and Running
+Details of how to build and run this application are covered by the relevant section of [this seL4 Developer Kit](https://github.com/sel4devkit/seL4-DevKit-Doc/blob/main/seL4-doc/src/uboot_driver_usage.md)
