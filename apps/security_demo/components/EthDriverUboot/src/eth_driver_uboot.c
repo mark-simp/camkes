@@ -9,7 +9,7 @@
 #include <platsupport/delay.h>
 
 #include <uboot_drivers.h>
-#include <platform_devices.h>
+#include <eth_platform_devices.h>
 
 #define ETHIF_TX_FAILED -1
 #define ETHIF_TX_COMPLETE 1
@@ -24,23 +24,23 @@ typedef struct rx_frame {
 } rx_frame_t;
 
 typedef struct client {
-    /* keeps track of the head of the queue */
+    /* Keeps track of the head of the queue */
     int pending_rx_head;
-    /* keeps track of the tail of the queue */
+    /* Keeps track of the tail of the queue */
     int pending_rx_tail;
     /*
-     * this is a cyclic queue of RX buffers pending to be read by a client,
+     * This is a cyclic queue of RX buffers pending to be read by a client,
      * the head represents the first buffer in the queue, and the tail the last
      */
     rx_frame_t pending_rx[CLIENT_RX_BUFS];
 
-    /* mac address for this client */
+    /* MAC address for this client */
     uint8_t mac[6];
 
     /* Badge for this client */
     seL4_Word client_id;
 
-    /* dataport for this client */
+    /* Dataport for this client */
     unsigned char *dataport;
 } client_t;
 
@@ -85,29 +85,29 @@ static int is_broadcast(void *buf, unsigned int len)
 
 static int is_multicast(void *buf, unsigned int len)
 {
-    // the dest address is in the IP header (16 bytes in), which is located after the
-    // ethernet header. the dest address itself is a standard 4byte IP address
+    /* The dest address is in the IP header (16 bytes in), which is located after the
+     * ethernet header. the dest address itself is a standard 4byte IP address */
     const int eth_header_len = 14;
     const int ip_hdr_dest_offset = 16;
     if (len < eth_header_len + ip_hdr_dest_offset + 4) {
         return 0;
     }
-    // read out a copy of the IP address so that it is correctly aligned
+    /* Read out a copy of the IP address so that it is correctly aligned */
     uint32_t addr;
     // TODO Find out why ARM memcpy faults on unaligned addresses
     //memcpy(&addr, ((uintptr_t)buf) + eth_header_len + ip_hdr_dest_offset, 4);
     for (int i = 0; i < 4; i++) {
         ((char *)&addr)[i] = ((char *)(buf + eth_header_len + ip_hdr_dest_offset))[i];
     }
-    // multicast addresses start with bit pattern 1110, which after accounting for
-    // network byte ordering is 0xe0
+    /* Multicast addresses start with bit pattern 1110, which after accounting for
+     * network byte ordering is 0xe0 */
     if ((addr & 0xf0) == 0xe0) {
         return 1;
     }
     return 0;
 }
 
-/** If eth frames have been received by the driver, copy the frames into the
+/* If eth frames have been received by the driver, copy the frames into the
  * associated client(s) buffer (pending_rx). Then copy a single frame (if any
  * are available) into the dataport of the caller of this function.
  *
@@ -224,7 +224,7 @@ int client_tx(int len)
     }
     assert(client);
 
-    /* transmit */
+    /* Transmit */
     if (0 != uboot_eth_send(client->dataport, len)) {
         return ETHIF_TX_FAILED;
     } else {
@@ -275,7 +275,7 @@ int server_init(ps_io_ops_t *io_ops)
         ZF_LOGF("Unable to initialise ethernet");
     }
 
-    /* preallocate buffers */
+    /* Preallocate buffers */
     num_clients = client_num_badges();
     clients = calloc(num_clients, sizeof(client_t));
     for (int client = 0; client < num_clients; client++) {
@@ -308,4 +308,11 @@ int server_init(ps_io_ops_t *io_ops)
     return 0;
 }
 
+/* The following macro provides the component's main function (named 'run') which
+ * performs required initialisation of CAmkES components declared with
+ * 'single_threaded_component()'.
+ *
+ * Once 'single threaded component' initialisation is complete the main function
+ * calls 'server_init'.
+ */
 CAMKES_POST_INIT_MODULE_DEFINE(ethdriver_run, server_init);

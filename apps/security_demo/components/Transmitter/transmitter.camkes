@@ -1,0 +1,43 @@
+/*
+ * Copyright 2022, Capgemini Engineering
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
+import "../../interfaces/Lock_RPC.idl4";
+
+#include <mmc_platform_devices.h>
+
+component Transmitter {
+    control;
+
+    include "dataport_buffer.h";
+
+    // Dataport for receiving encrypted characters form the Crypto component
+    dataport dataport_buffer_t circular_buffer_data;
+
+    // Lock to serialise access to the dataport_buffer
+    uses Lock_RPC circular_buffer_lock;
+
+    // Event to notify that data has been written to the dataport_buffer
+    consumes dataport_event circular_buffer_notify;
+
+    // Connections to the PicoServer
+    uses PicoControl eth_control;
+    uses PicoRecv eth_recv;
+    uses PicoSend eth_send;
+
+    // IP address
+    attribute string ip_addr;
+
+    // Hardware configuration for MMC device
+    HARDWARE_INTERFACES
+
+    composition {
+        HARDWARE_COMPOSITION
+    }
+
+    configuration {
+        HARDWARE_CONFIGURATION
+    }
+}

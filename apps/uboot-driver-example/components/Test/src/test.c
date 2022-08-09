@@ -1,4 +1,6 @@
 /*
+ * Copyright 2022 Capgemini Engineering
+ *
  * SPDX-License-Identifier: BSD-2-Clause
  */
 
@@ -23,6 +25,9 @@
     #define TEST_MMC
     #define TEST_PINMUX
     #define TEST_GPIO
+    #define TEST_FILESYSTEM
+    #define TEST_FILESYSTEM_PARTITION "mmc 0:1"  // Partition 1 on mmc device 0
+    #define TEST_FILESYSTEM_FILENAME  "test_file.txt"
 
 #elif defined(CONFIG_PLAT_ODROIDC2)
     #define TEST_PINMUX
@@ -45,6 +50,9 @@
     #define TEST_MMC
     #define TEST_PINMUX
     #define TEST_GPIO
+    #define TEST_FILESYSTEM
+    #define TEST_FILESYSTEM_PARTITION "dummy_partition"
+    #define TEST_FILESYSTEM_FILENAME  "test_file.txt"
 #endif
 
 int run_uboot_driver_example(ps_io_ops_t *io_ops)
@@ -156,6 +164,44 @@ int run_uboot_driver_example(ps_io_ops_t *io_ops)
     #endif
 
     run_uboot_command("dm tree");
+
+    #ifdef TEST_FILESYSTEM
+    /* Example of filesystem handling. Writes a file to a FAT partition before reading
+     * the contents back and deleting the file. */
+
+    // String to build the U-Boot command in
+    char uboot_cmd[64];
+
+    // Test string to write to the file
+    const char test_string[] = "Hello file!";
+
+    // Test string to read the file into
+    #define MAX_BYTES_TO_READ 32
+    char read_string[MAX_BYTES_TO_READ];
+
+    // Build command to write the test string to a file and execute command
+    sprintf(uboot_cmd, "fatwrite %s 0x%x %s %x %x",
+        TEST_FILESYSTEM_PARTITION,   // The U-Boot partition designation
+        &test_string,                // Address of the data to write
+        TEST_FILESYSTEM_FILENAME,    // Filename to write to (or create)
+        strlen(test_string),         // The number of bytes to write
+        0);                          // The offset in the file to start writing from
+    run_uboot_command(uboot_cmd);
+
+    // Read then output contents of the file
+    sprintf(uboot_cmd, "fatload %s 0x%x %s %x %x",
+        TEST_FILESYSTEM_PARTITION,   // The U-Boot partition designation
+        &read_string,                // Address to read the data into
+        TEST_FILESYSTEM_FILENAME,    // Filename to read from
+        MAX_BYTES_TO_READ,           // Max number of bytes to read (0 = to end of file)
+        0);                          // The offset in the file to start read from
+    run_uboot_command(uboot_cmd);
+    printf("String read from file %s: %s\n", TEST_FILESYSTEM_FILENAME, read_string);
+
+    // Now delete the temporary file used for the example
+    sprintf(uboot_cmd, "fatrm %s %s", TEST_FILESYSTEM_PARTITION, TEST_FILESYSTEM_FILENAME);
+    run_uboot_command(uboot_cmd);
+    #endif
 
     #ifdef TEST_USB
     run_uboot_command("usb tree");

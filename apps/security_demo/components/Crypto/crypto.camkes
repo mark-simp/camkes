@@ -1,0 +1,28 @@
+/*
+ * Copyright 2022, Capgemini Engineering
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
+import "../../interfaces/Character_RPC.idl4";
+import "../../interfaces/Lock_RPC.idl4";
+
+component Crypto {
+    include "dataport_buffer.h";
+
+    // RPC interface for receiving plain text characters from the Key_Reader component
+    provides Character_RPC clear_text;
+
+    // Dataport for sending encrypted characters to the Transmitter component
+    dataport dataport_buffer_t circular_buffer_data;
+
+    // Lock to serialise access to the dataport_buffer
+    provides Lock_RPC circular_buffer_lock;
+
+    // Mutex to implement the dataport_buffer lock
+    has mutex circular_buffer_mutex;
+
+    // Event to notify that data has been written to the dataport_buffer
+    emits dataport_event circular_buffer_notify;
+}
+

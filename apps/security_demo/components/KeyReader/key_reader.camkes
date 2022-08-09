@@ -1,0 +1,25 @@
+/*
+ * Copyright 2022, Capgemini Engineering
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
+#include <usb_platform_devices.h>
+
+import "../../interfaces/Character_RPC.idl4";
+
+component KeyReader {
+    control;
+
+    uses Character_RPC clear_text;
+
+    HARDWARE_INTERFACES
+
+    composition {
+        HARDWARE_COMPOSITION
+    }
+
+    configuration {
+        HARDWARE_CONFIGURATION
+    }
+}

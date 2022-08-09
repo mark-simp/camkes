@@ -1,0 +1,9 @@
+/*
+ * Copyright 2022, Capgemini Engineering
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
+procedure Character_RPC {
+    void handle_character(in char c);
+};
